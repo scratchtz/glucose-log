@@ -22,14 +22,13 @@ export function Summary() {
         const res = readData();
         if (res) {
             setData(res);
-            console.log(res);
         }
     }
 
     if (data.length === 0) {
         return (
             <View style={{alignItems: 'center', justifyContent: 'center', height: 220}}>
-                <Text>No data to show</Text>
+                <Text variant={'h1'}>No data to show</Text>
             </View>
         );
     }
@@ -47,13 +46,12 @@ export function Summary() {
 
     return (
         <View style={styles.container}>
+            <View style={{marginTop: 20}}></View>
             <Text variant={'h1'}>SUMMARY</Text>
-            <View style={{marginBottom: 20}}></View>
             <LineChart
                 data={chartData}
                 width={Dimensions.get('window').width - 16} // Account for padding
-                height={300}
-                yAxisSuffix=""
+                height={350}
                 chartConfig={{
                     backgroundColor: theme.card.background,
                     backgroundGradientFrom: theme.card.background,
@@ -62,14 +60,11 @@ export function Summary() {
                     color: theme.isDark
                         ? (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
                         : (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                        borderRadius: 16,
-                    },
                 }}
                 bezier
                 style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
+                    marginVertical: 12,
+                    borderRadius: theme.rounded.m,
                 }}
             />
         </View>

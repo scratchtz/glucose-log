@@ -41,4 +41,5 @@ export function readData() {
         console.error('Something went wrong executing SQL commands:', error.message);
     }
 }
+
 createTable();

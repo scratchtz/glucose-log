@@ -18,7 +18,6 @@ import {useCallback} from 'react';
 import {UnistylesRegistry} from 'react-native-unistyles';
 import {breakpoints} from '@/utils/styles/breakpoints';
 import {darkTheme, lightTheme} from '@/utils/styles/theme';
-import {createTable} from '@/storage/db-service';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));
