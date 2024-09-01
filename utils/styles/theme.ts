@@ -6,13 +6,14 @@ export type FontColor = 'primary' | 'secondary' | 'tertiary';
 export type TextVariant = 'h1' | 'h2' | 'h3' | 'body' | 'small' | 'tiny';
 
 export type AppTheme = typeof lightTheme;
-
+const primaryColor = palette.rose500;
 export const lightTheme = {
     id: 'light',
     isDark: false,
     spacing: spacing,
     rounded: rounded,
     colors: {
+        primary: primaryColor,
         text: {
             primary: palette.gray900,
             secondary: palette.gray600,
@@ -69,6 +70,7 @@ export const darkTheme: AppTheme = {
     spacing: spacing,
     rounded: rounded,
     colors: {
+        primary: primaryColor,
         text: {
             primary: palette.gray100,
             secondary: palette.gray400,

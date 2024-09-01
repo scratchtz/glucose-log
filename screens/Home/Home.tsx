@@ -50,8 +50,7 @@ export function Home() {
                     <Text color={'tertiary'} weight={'400'}>
                         mmol/L
                     </Text>
-
-                    <Text style={styles.result} variant={'h1'} weight={'500'}>
+                    <Text style={styles.result} color={digit ? 'primary' : 'secondary'} variant={'h1'} weight={'500'}>
                         {results || '000'}
                     </Text>
                 </View>
@@ -59,7 +58,7 @@ export function Home() {
                     <Text color={'tertiary'} weight={'400'}>
                         mg/dL
                     </Text>
-                    <Text style={[styles.result]} weight={'500'} variant={'h1'}>
+                    <Text style={[styles.result]} color={digit ? 'primary' : 'secondary'} weight={'500'} variant={'h1'}>
                         {digit || '000'}
                     </Text>
                 </View>
@@ -67,13 +66,15 @@ export function Home() {
                     {numbers.map((number, index) => (
                         <TouchableOpacity onPress={() => onAdd(number)} key={index}>
                             <View style={styles.number}>
-                                <Text style={styles.value}>{number}</Text>
+                                <Text weight={'600'} style={styles.value}>
+                                    {number}
+                                </Text>
                             </View>
                         </TouchableOpacity>
                     ))}
                     <TouchableOpacity onPress={onClear}>
                         <View style={styles.number}>
-                            <FontAwesome5 name={'backspace'} size={18} color={palette.sky500} />
+                            <FontAwesome5 name={'backspace'} size={18} color={theme.colors.primary} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -90,30 +91,31 @@ const stylesheet = createStyleSheet(theme => ({
     container: {
         paddingTop: UnistylesRuntime.insets.top,
         paddingHorizontal: theme.spacing.m,
-        paddingBottom: UnistylesRuntime.insets.bottom,
     },
     wrapper: {
         marginTop: theme.spacing.m,
         borderWidth: 1,
         borderRadius: theme.rounded.l,
         borderColor: theme.colors.border,
-        padding: theme.spacing.m,
+        paddingVertical: theme.spacing.l,
+        paddingHorizontal: theme.spacing.m,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     result: {
-        textAlign: 'right',
-        marginVertical: theme.spacing.m,
+        paddingTop: theme.spacing.xl,
     },
     input: {
         fontSize: 32,
         color: theme.colors.text.primary,
     },
     numbers: {
-        marginTop: 15,
+        marginTop: theme.spacing.m,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: theme.spacing.m,
+        gap: theme.spacing.l,
     },
     number: {
         borderRadius: theme.spacing.m,
@@ -126,7 +128,7 @@ const stylesheet = createStyleSheet(theme => ({
     },
     value: {
         fontSize: theme.spacing.xl,
-        color: palette.sky500,
+        color: palette.rose500,
     },
     day: {
         borderRadius: theme.spacing.m,
@@ -138,10 +140,10 @@ const stylesheet = createStyleSheet(theme => ({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: palette.sky500,
-        marginTop: theme.spacing.l,
+        backgroundColor: theme.colors.primary,
+        marginTop: theme.spacing.xl,
         padding: theme.spacing.m,
-        borderRadius: theme.spacing.l,
+        borderRadius: theme.spacing.m,
         alignItems: 'center',
     },
 }));

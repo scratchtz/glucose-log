@@ -1,10 +1,11 @@
-import {Dimensions, View} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {useCallback, useState} from 'react';
 import {IData, readData} from '@/storage/db-service';
 import {LineChart} from 'react-native-chart-kit';
 import {useFocusEffect} from '@react-navigation/core';
+import {palette} from '@/utils/styles/palette';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -45,7 +46,7 @@ export function Summary() {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={{marginTop: 20}}></View>
             <Text variant={'h1'}>SUMMARY</Text>
             <LineChart
@@ -57,9 +58,7 @@ export function Summary() {
                     backgroundGradientFrom: theme.card.background,
                     backgroundGradientTo: theme.card.background,
                     decimalPlaces: 2,
-                    color: theme.isDark
-                        ? (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
-                        : (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                    color: (opacity = 1) => `rgba(244, 63, 94, ${opacity})`,
                 }}
                 bezier
                 style={{
@@ -67,7 +66,28 @@ export function Summary() {
                     borderRadius: theme.rounded.m,
                 }}
             />
-        </View>
+            <View style={{marginTop: theme.spacing.s}}>
+                <Text variant={'h2'}>Records</Text>
+                {data.length > 0 && (
+                    <>
+                        <View style={styles.header}>
+                            <Text weight={'500'}>Day</Text>
+                            <Text weight={'500'}>Glucose Level</Text>
+                        </View>
+                        <View style={styles.data}>
+                            {data.map((d, index) => (
+                                <View key={index} style={styles.wrapper}>
+                                    <Text weight={'500'}>{days[d.day]}</Text>
+                                    <Text weight={'500'} variant={'h3'} style={{color: theme.colors.primary}}>
+                                        {d.levels} mmol/L
+                                    </Text>
+                                </View>
+                            ))}
+                        </View>
+                    </>
+                )}
+            </View>
+        </ScrollView>
     );
 }
 
@@ -75,5 +95,22 @@ const stylesheet = createStyleSheet(theme => ({
     container: {
         paddingTop: UnistylesRuntime.insets.top,
         paddingHorizontal: theme.spacing.m,
+    },
+    wrapper: {
+        backgroundColor: theme.card.background,
+        padding: theme.spacing.l,
+        borderRadius: theme.rounded.l,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    header: {
+        marginTop: theme.spacing.m,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: theme.spacing.s,
+    },
+    data: {
+        gap: theme.spacing.m,
+        marginTop: theme.spacing.s,
     },
 }));
