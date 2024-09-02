@@ -3,6 +3,7 @@ import {Platform} from 'react-native';
 
 export interface IData {
     levels: number;
+    measurement: string;
     day: number;
 }
 
@@ -11,7 +12,8 @@ const db = open({name: 'glucose-log', location: Platform.OS === 'ios' ? IOS_LIBR
 export function createTable() {
     const query = `CREATE TABLE IF NOT EXISTS glucose_log(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        levels REAL NOT NULL,
+        levels INTEGER NOT NULL,
+        measurement TEXT NOT NULL,
         day INTEGER NOT NULL
     )`;
     db.execute(query);
@@ -26,11 +28,11 @@ export function addData(data: IData) {
         query = `UPDATE glucose_log SET levels = ? WHERE day = ?;`;
     } else {
         query = `
-        INSERT INTO glucose_log (levels, day)
-        VALUES (?, ?)
+        INSERT INTO glucose_log (levels,measurement, day)
+        VALUES (?,?,?)
     `;
     }
-    db.execute(query, [data.levels, data.day]);
+    db.execute(query, [data.levels, data.measurement, data.day]);
 }
 
 export function readData() {

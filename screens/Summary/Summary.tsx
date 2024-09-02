@@ -5,7 +5,6 @@ import {useCallback, useState} from 'react';
 import {IData, readData} from '@/storage/db-service';
 import {LineChart} from 'react-native-chart-kit';
 import {useFocusEffect} from '@react-navigation/core';
-import {palette} from '@/utils/styles/palette';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -66,7 +65,7 @@ export function Summary() {
                     borderRadius: theme.rounded.m,
                 }}
             />
-            <View style={{marginTop: theme.spacing.s}}>
+            <View style={{paddingVertical: theme.spacing.s}}>
                 <Text variant={'h2'}>Records</Text>
                 {data.length > 0 && (
                     <>
@@ -79,7 +78,7 @@ export function Summary() {
                                 <View key={index} style={styles.wrapper}>
                                     <Text weight={'500'}>{days[d.day]}</Text>
                                     <Text weight={'500'} variant={'h3'} style={{color: theme.colors.primary}}>
-                                        {d.levels} mmol/L
+                                        {d.levels} {d.measurement}
                                     </Text>
                                 </View>
                             ))}
@@ -87,6 +86,7 @@ export function Summary() {
                     </>
                 )}
             </View>
+            <View style={{marginTop: 50}}></View>
         </ScrollView>
     );
 }

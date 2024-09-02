@@ -1,72 +1,110 @@
-import {ScrollView, TextInput, TouchableOpacity, View} from 'react-native';
+import {TextInput, TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/Text/Text';
 import {palette} from '@/utils/styles/palette';
 import {useEffect, useState} from 'react';
-import {FontAwesome5} from '@expo/vector-icons';
+import {Entypo, FontAwesome5} from '@expo/vector-icons';
 import {addData} from '@/storage/db-service';
 
 const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'];
-
-export function Home() {
+export type measurement = 'mmol' | 'mg';
+export function Home({navigation}: any) {
     const {styles, theme} = useStyles(stylesheet);
-    const [digit, setDigit] = useState('');
-    const [results, setResults] = useState(0);
+    const [input, setInput] = useState('');
+    const [results, setResults] = useState('');
+    const [isSelected, setIsSelected] = useState<measurement>('mmol');
 
     useEffect(() => {
         onCalculate();
-    }, [digit]);
+    }, [input]);
+
+    function onSelect(d: measurement) {
+        setIsSelected(d);
+    }
 
     function onAdd(n: string) {
-        setDigit(prev => prev + n);
+        setInput(prev => prev + n);
     }
 
     function onClear() {
-        setDigit(prev => prev.slice(0, -1));
+        setInput(prev => prev.slice(0, -1));
     }
 
     function onCalculate() {
-        const val = parseFloat(digit);
+        if (!input) {
+            return;
+        }
+
+        if (input.split('.').length > 2) {
+            return;
+        }
+
+        const val = parseFloat(input);
 
         //find the millimoles per liter
-        const res = val / 18;
-        setResults(parseFloat(res.toFixed(3)));
+        if (isSelected === 'mg') {
+            const res = val / 18;
+            setResults(res.toFixed(2));
+        } else {
+            const res = val * 18;
+            setResults(res.toFixed(2));
+        }
     }
-
     function onSave() {
         const time = new Date();
-        addData({levels: results, day: time.getDay()});
+        addData({
+            levels: isSelected === 'mmol' ? parseFloat(input) : parseFloat(results),
+            measurement: 'mmol/L',
+            day: time.getDay(),
+        });
 
         //reset values
-        setDigit('');
-        setResults(0);
+        setInput('');
+        setResults('');
     }
 
     return (
         <View style={styles.container}>
             <View>
-                <Text variant={'h1'}>Home</Text>
-                <View style={styles.wrapper}>
+                <View style={styles.iconsWrapper}>
+                    <TouchableOpacity onPress={onSave} style={styles.icon}>
+                        <Entypo name={'save'} size={30} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Summary')} style={styles.icon}>
+                        <Entypo name={'bar-graph'} size={30} />
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                    onPress={() => onSelect('mmol')}
+                    style={[styles.wrapper, isSelected === 'mmol' && styles.selected]}>
                     <Text color={'tertiary'} weight={'400'}>
                         mmol/L
                     </Text>
-                    <Text style={styles.result} color={digit ? 'primary' : 'secondary'} variant={'h1'} weight={'500'}>
-                        {results || '000'}
-                    </Text>
-                </View>
-                <View style={[styles.wrapper, {backgroundColor: theme.card.background}]}>
+                    <TextInput
+                        style={[styles.result, styles.input]}
+                        editable={false}
+                        placeholder={'000'}
+                        value={isSelected === 'mmol' ? input : results}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => onSelect('mg')}
+                    style={[styles.wrapper, isSelected === 'mg' && styles.selected]}>
                     <Text color={'tertiary'} weight={'400'}>
                         mg/dL
                     </Text>
-                    <Text style={[styles.result]} color={digit ? 'primary' : 'secondary'} weight={'500'} variant={'h1'}>
-                        {digit || '000'}
-                    </Text>
-                </View>
+                    <TextInput
+                        style={[styles.result, styles.input]}
+                        editable={false}
+                        placeholder={'000'}
+                        value={isSelected === 'mg' ? input : results}
+                    />
+                </TouchableOpacity>
                 <View style={styles.numbers}>
                     {numbers.map((number, index) => (
                         <TouchableOpacity onPress={() => onAdd(number)} key={index}>
                             <View style={styles.number}>
-                                <Text weight={'600'} style={styles.value}>
+                                <Text weight={'700'} style={styles.value}>
                                     {number}
                                 </Text>
                             </View>
@@ -78,11 +116,6 @@ export function Home() {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={onSave} style={styles.button}>
-                    <Text variant={'h3'} weight={'600'}>
-                        SAVE
-                    </Text>
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -102,12 +135,12 @@ const stylesheet = createStyleSheet(theme => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    input: {
+        fontSize: 34,
+        color: theme.colors.text.primary,
+    },
     result: {
         paddingTop: theme.spacing.xl,
-    },
-    input: {
-        fontSize: 32,
-        color: theme.colors.text.primary,
     },
     numbers: {
         marginTop: theme.spacing.m,
@@ -127,7 +160,7 @@ const stylesheet = createStyleSheet(theme => ({
         alignItems: 'center',
     },
     value: {
-        fontSize: theme.spacing.xl,
+        fontSize: theme.spacing.xxl,
         color: palette.rose500,
     },
     day: {
@@ -139,11 +172,21 @@ const stylesheet = createStyleSheet(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    button: {
+    icon: {
         backgroundColor: theme.colors.primary,
         marginTop: theme.spacing.xl,
         padding: theme.spacing.m,
-        borderRadius: theme.spacing.m,
+        borderRadius: theme.spacing.l,
+        alignItems: 'center',
+    },
+    selected: {
+        backgroundColor: theme.card.background,
+        borderWidth: 1,
+        borderColor: theme.card.border,
+    },
+    iconsWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
 }));
