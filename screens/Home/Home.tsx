@@ -1,6 +1,6 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
-import {useCallback} from 'react';
+import {useCallback, useRef} from 'react';
 import {addData} from '@/storage/db-service';
 import {ChartColumn, Save} from 'lucide-react-native';
 import {Keyboard} from './Keyboard';
@@ -8,20 +8,39 @@ import {useGlucoseInput} from '@/screens/Home/constants';
 import {UnitDisplay} from '@/screens/Home/components/UnitDisplay';
 import {Text} from '@/components/Text/Text';
 import {palette} from '@/utils/styles/palette';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {Label} from '@/screens/Home/components/Label';
+import {useState} from 'react';
 
 export function Home({navigation}: any) {
     const {styles} = useStyles(stylesheet);
     const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput('mmol');
+    const model = useRef<BottomSheetModal>(null);
 
-    const onSave = useCallback(() => {
-        //TODO open modal, add label for someone to record, add date
-        const time = new Date();
+    const [label, setLabel] = useState('');
+    const [date, setDate] = useState(new Date());
+
+    const updateLabel = (label: string) => {
+        setLabel(label);
+    };
+
+    const handleDate = (date: Date) => {
+        setDate(date);
+    };
+
+    const onSave = () => {
+        model.current?.present();
+    };
+
+    const onConfirmSave = useCallback(() => {
+        model.current?.close();
         addData({
             levels: parseFloat(values.mmol),
             measurement: 'mmol/L',
-            day: time.getDay(),
+            day: date.getDay(),
+            label: label,
         });
-    }, [values.mmol]);
+    }, [values.mmol, label]);
 
     return (
         <View style={styles.container}>
@@ -58,6 +77,7 @@ export function Home({navigation}: any) {
                 onPress={() => setCurrentUnit('mg')}
             />
             <Keyboard onBackspace={onBackspace} onNumberPress={onNumberPress} />
+            <Label ref={model} UpdateLabel={updateLabel} onConfirmSave={onConfirmSave} handleDate={handleDate} />
         </View>
     );
 }

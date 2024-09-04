@@ -3,36 +3,32 @@ import {Platform} from 'react-native';
 
 export interface IData {
     levels: number;
-    measurement: string;
     day: number;
+    measurement: string;
+    label: string;
 }
 
 const db = open({name: 'glucose-log', location: Platform.OS === 'ios' ? IOS_LIBRARY_PATH : ANDROID_FILES_PATH});
 
-export function createTable() {
+export function initTable() {
     const query = `CREATE TABLE IF NOT EXISTS glucose_log(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         levels INTEGER NOT NULL,
         measurement TEXT NOT NULL,
+        label TEXT NOT NULL DEFAULT '',
         day INTEGER NOT NULL
     )`;
     db.execute(query);
 }
 
 export function addData(data: IData) {
-    const {res} = db.execute(`SELECT day FROM glucose_log WHERE day = ?`, [data.day]);
     let query: string;
-
-    // re-write if the day is the same
-    if (res) {
-        query = `UPDATE glucose_log SET levels = ? WHERE day = ?;`;
-    } else {
-        query = `
-        INSERT INTO glucose_log (levels,measurement, day)
-        VALUES (?,?,?)
+    query = `
+        INSERT INTO glucose_log (levels,measurement, day,label)
+        VALUES (?,?,?,?)
     `;
-    }
-    db.execute(query, [data.levels, data.measurement, data.day]);
+    // }
+    db.execute(query, [data.levels, data.measurement, data.day, data.label]);
 }
 
 export function readData() {
@@ -44,4 +40,6 @@ export function readData() {
     }
 }
 
-createTable();
+export function deleteData() {
+    db.execute('DROP TABLE glucose_log');
+}

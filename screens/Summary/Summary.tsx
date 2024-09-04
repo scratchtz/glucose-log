@@ -71,12 +71,14 @@ export function Summary() {
                     <>
                         <View style={styles.header}>
                             <Text weight={'500'}>Day</Text>
+                            <Text weight={'500'}>Label</Text>
                             <Text weight={'500'}>Glucose Level</Text>
                         </View>
                         <View style={styles.data}>
                             {data.map((d, index) => (
                                 <View key={index} style={styles.wrapper}>
                                     <Text weight={'500'}>{days[d.day]}</Text>
+                                    <Text>{d.label}</Text>
                                     <Text weight={'500'} variant={'h3'} style={{color: theme.colors.primary}}>
                                         {d.levels} {d.measurement}
                                     </Text>
@@ -102,6 +104,7 @@ const stylesheet = createStyleSheet(theme => ({
         borderRadius: theme.rounded.l,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     header: {
         marginTop: theme.spacing.m,

@@ -18,6 +18,9 @@ import {useCallback} from 'react';
 import {UnistylesRegistry} from 'react-native-unistyles';
 import {breakpoints} from '@/utils/styles/breakpoints';
 import {darkTheme, lightTheme} from '@/utils/styles/theme';
+import {deleteData, initTable} from '@/storage/db-service';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));
@@ -31,6 +34,8 @@ UnistylesRegistry.addBreakpoints(breakpoints)
         adaptiveThemes: true,
     });
 
+//init create table
+initTable();
 export default function App() {
     const [fontsLoaded] = useFonts({
         'Font-100': Poppins_100Thin,
@@ -53,7 +58,11 @@ export default function App() {
     }
     return (
         <SafeAreaProvider onLayout={onLayoutRootView}>
-            <Navigation />
+            <GestureHandlerRootView>
+                <BottomSheetModalProvider>
+                    <Navigation />
+                </BottomSheetModalProvider>
+            </GestureHandlerRootView>
         </SafeAreaProvider>
     );
 }
