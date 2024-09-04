@@ -39,7 +39,3 @@ export function readData() {
         console.error('Something went wrong executing SQL commands:', error.message);
     }
 }
-
-export function deleteData() {
-    db.execute('DROP TABLE glucose_log');
-}

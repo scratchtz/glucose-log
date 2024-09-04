@@ -69,8 +69,8 @@ export const Label = forwardRef((props: Props, ref: any) => {
                         )}
                     </TouchableOpacity>
                     <DateTimePicker
-                        mode={'date'}
                         maximumDate={new Date()}
+                        display={'inline'}
                         isVisible={isDateVisible}
                         onConfirm={onConfirmDate}
                         onCancel={onCancel}
