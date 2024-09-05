@@ -27,7 +27,6 @@ export function addData(data: IData) {
         INSERT INTO glucose_log (levels,measurement, day,label)
         VALUES (?,?,?,?)
     `;
-    // }
     db.execute(query, [data.levels, data.measurement, data.day, data.label]);
 }
 

@@ -48,7 +48,7 @@ export const Label = forwardRef((props: Props, ref: any) => {
                     <AntDesign name={'closecircleo'} size={24} color={theme.colors.text.primary} />
                 </TouchableOpacity>
                 <View>
-                    <Text variant={'h3'}>Label</Text>
+                    <Text variant={'h3'}>Label (Optional)</Text>
                     <TextInput
                         placeholder={'Label'}
                         onChangeText={text => props.UpdateLabel(text)}
@@ -61,16 +61,16 @@ export const Label = forwardRef((props: Props, ref: any) => {
                     <TouchableOpacity style={styles.button} onPress={() => setIsDateVisible(true)}>
                         {date ? (
                             <View style={styles.dateRender}>
-                                <Text variant={'h3'}>Picked Date:</Text>
-                                <Text variant={'h2'}>{date.toLocaleDateString()}</Text>
+                                <Text variant={'h3'}>Picked Time:</Text>
+                                <Text variant={'h2'}>{date.toDateString()}</Text>
                             </View>
                         ) : (
-                            <Text>Pick Date</Text>
+                            <Text>Pick Time (Current Time)</Text>
                         )}
                     </TouchableOpacity>
                     <DateTimePicker
+                        mode={'datetime'}
                         maximumDate={new Date()}
-                        display={'inline'}
                         isVisible={isDateVisible}
                         onConfirm={onConfirmDate}
                         onCancel={onCancel}
