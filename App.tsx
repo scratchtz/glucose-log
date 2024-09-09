@@ -18,7 +18,6 @@ import {useCallback} from 'react';
 import {UnistylesRegistry} from 'react-native-unistyles';
 import {breakpoints} from '@/utils/styles/breakpoints';
 import {darkTheme, lightTheme} from '@/utils/styles/theme';
-import {deleteData, initTable} from '@/storage/db-service';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
@@ -34,8 +33,6 @@ UnistylesRegistry.addBreakpoints(breakpoints)
         adaptiveThemes: true,
     });
 
-//init create table
-initTable();
 export default function App() {
     const [fontsLoaded] = useFonts({
         'Font-100': Poppins_100Thin,

@@ -18,6 +18,8 @@ export const useGlucoseInput = (initialUnit: Unit) => {
     }, []);
 
     const onNumberPress = (n: string) => {
+        //mg doesn't accept decimal numbers
+        if (n === '.' && currentUnit === 'mg') return;
         setValues(prevValues => {
             const currentValue = prevValues[currentUnit];
             let newValue;

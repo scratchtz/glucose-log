@@ -6,7 +6,7 @@ export type FontColor = 'primary' | 'secondary' | 'tertiary';
 export type TextVariant = 'h1' | 'h2' | 'h3' | 'body' | 'small' | 'tiny';
 
 export type AppTheme = typeof lightTheme;
-const primaryColor = palette.rose200;
+const primaryColor = palette.violet500;
 export const lightTheme = {
     id: 'light',
     isDark: false,

@@ -1,40 +1,62 @@
-import {IOS_LIBRARY_PATH, ANDROID_FILES_PATH, open} from '@op-engineering/op-sqlite';
+import {IOS_LIBRARY_PATH, ANDROID_FILES_PATH, open, DB as Database} from '@op-engineering/op-sqlite';
 import {Platform} from 'react-native';
 
-export interface IData {
-    levels: number;
-    day: number;
-    measurement: string;
+export type ILog = {
+    id?: number;
+    value: number;
+    timestamp: number;
     label: string;
-}
+};
 
-const db = open({name: 'glucose-log', location: Platform.OS === 'ios' ? IOS_LIBRARY_PATH : ANDROID_FILES_PATH});
+class DB {
+    private static instance: DB;
+    private db: Database;
 
-export function initTable() {
-    const query = `CREATE TABLE IF NOT EXISTS glucose_log(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        levels INTEGER NOT NULL,
-        measurement TEXT NOT NULL,
-        label TEXT NOT NULL DEFAULT '',
-        day INTEGER NOT NULL
-    )`;
-    db.execute(query);
-}
+    private constructor() {
+        this.db = open({
+            name: 'db-glucose-log',
+            location: Platform.OS === 'ios' ? IOS_LIBRARY_PATH : ANDROID_FILES_PATH,
+        });
+        this.init();
+    }
 
-export function addData(data: IData) {
-    let query: string;
-    query = `
-        INSERT INTO glucose_log (levels,measurement, day,label)
-        VALUES (?,?,?,?)
-    `;
-    db.execute(query, [data.levels, data.measurement, data.day, data.label]);
-}
+    public static getInstance(): DB {
+        if (!DB.instance) {
+            DB.instance = new DB();
+        }
+        return DB.instance;
+    }
 
-export function readData() {
-    try {
-        const {rows} = db.execute('SELECT * FROM glucose_log');
+    public init(): void {
+        try {
+            const createQuery = `CREATE TABLE IF NOT EXISTS log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                value DOUBLE NOT NULL,
+                timestamp INTEGER NOT NULL,
+                label TEXT NOT NULL DEFAULT ''
+            )`;
+            this.db.execute(createQuery);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    public record(data: ILog): void {
+        const query = `
+            INSERT INTO log (value,timestamp,label)
+            VALUES (?,?,?)
+        `;
+        this.db.execute(query, [data.value, data.timestamp, data.label]);
+    }
+
+    public getAll(): ILog[] | undefined {
+        const {rows} = this.db.execute('SELECT * FROM log');
         return rows?._array;
-    } catch (error: any) {
-        console.error('Something went wrong executing SQL commands:', error.message);
+    }
+
+    public clearAll(): void {
+        this.db.execute('DELETE FROM log');
     }
 }
+
+export default DB;
