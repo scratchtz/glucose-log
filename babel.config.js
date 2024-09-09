@@ -6,6 +6,8 @@ module.exports = {
             {
                 alias: {
                     '@': './',
+                    crypto: 'react-native-quick-crypto',
+                    buffer: '@craftzdog/react-native-buffer',
                 },
             },
             'react-native-reanimated/plugin',

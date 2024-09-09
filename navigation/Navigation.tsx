@@ -41,6 +41,7 @@ export default function Navigation() {
                         title: 'Summary',
                         presentation: 'modal',
                         headerBackTitleVisible: false,
+                        headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
                     }}
                 />
@@ -49,8 +50,8 @@ export default function Navigation() {
                     component={Settings}
                     options={{
                         title: 'Settings',
-                        presentation: 'modal',
                         headerBackTitleVisible: false,
+                        headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
                     }}
                 />

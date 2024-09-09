@@ -77,7 +77,7 @@ export const darkTheme: AppTheme = {
             tertiary: palette.gray500,
         },
         background: '#151515',
-        border: '#3E3E3E',
+        border: '#151515',
     },
     card: {
         background: '#2C323B',

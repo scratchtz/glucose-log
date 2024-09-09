@@ -15,11 +15,12 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from '@/navigation/Navigation';
 import {useFonts} from 'expo-font';
 import {useCallback} from 'react';
-import {UnistylesRegistry} from 'react-native-unistyles';
+import {UnistylesRegistry, useInitialTheme} from 'react-native-unistyles';
 import {breakpoints} from '@/utils/styles/breakpoints';
 import {darkTheme, lightTheme} from '@/utils/styles/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {useEncryptionStorage} from '@/hooks/useEncryptedStorage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));
@@ -34,6 +35,7 @@ UnistylesRegistry.addBreakpoints(breakpoints)
     });
 
 export default function App() {
+    const [encryptedStorageLoaded] = useEncryptionStorage();
     const [fontsLoaded] = useFonts({
         'Font-100': Poppins_100Thin,
         'Font-200': Poppins_200ExtraLight,
@@ -50,7 +52,7 @@ export default function App() {
         if (fontsLoaded) await SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
-    if (!fontsLoaded) {
+    if (!fontsLoaded || !encryptedStorageLoaded) {
         return null;
     }
     return (

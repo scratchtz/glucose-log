@@ -1,11 +1,24 @@
 import {IOS_LIBRARY_PATH, ANDROID_FILES_PATH, open, DB as Database} from '@op-engineering/op-sqlite';
 import {Platform} from 'react-native';
+import themeContext from '@react-navigation/native/src/theming/ThemeContext';
+import {useDataRange} from '@/storage/atoms/range';
 
 export type ILog = {
     id?: number;
     value: number;
     timestamp: number;
     label: string;
+};
+
+export type PercentageRange = {
+    range: number;
+};
+
+export type IValues = {
+    max_timestamp: number;
+    min_timestamp: number;
+    max_value: number;
+    min_value: number;
 };
 
 class DB {
@@ -56,6 +69,23 @@ class DB {
 
     public clearAll(): void {
         this.db.execute('DELETE FROM log');
+    }
+
+    public getMaxAndMinValue() {
+        const query = `SELECT 
+            (SELECT timestamp FROM log WHERE value = (SELECT MIN(value) FROM log)) AS min_timestamp,
+            MIN(value) AS min_value,
+            (SELECT timestamp FROM log WHERE value = (SELECT MAX(value) FROM log)) AS max_timestamp,
+            MAX(value) AS max_value
+        FROM log`;
+        const {rows} = this.db.execute(query);
+        return rows?._array[0];
+    }
+
+    public getRange(maxVal: number, minVal: number): PercentageRange {
+        const query = `SELECT ROUND((CAST(SUM(CASE WHEN value >= ${minVal} AND value <= ${maxVal} THEN 1 ELSE 0 END) AS FLOAT)/ COUNT(*)) * 100,2) AS range FROM log;`;
+        const {rows} = this.db.execute(query);
+        return rows?._array[0];
     }
 }
 
