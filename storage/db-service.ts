@@ -14,13 +14,6 @@ export type PercentageRange = {
     range: number;
 };
 
-export type IValues = {
-    max_timestamp: number;
-    min_timestamp: number;
-    max_value: number;
-    min_value: number;
-};
-
 class DB {
     private static instance: DB;
     private db: Database;
@@ -31,6 +24,7 @@ class DB {
             location: Platform.OS === 'ios' ? IOS_LIBRARY_PATH : ANDROID_FILES_PATH,
         });
         this.init();
+        this.timeStampIndex();
     }
 
     public static getInstance(): DB {
@@ -54,6 +48,11 @@ class DB {
         }
     }
 
+    public timeStampIndex(): void {
+        const query = `CREATE INDEX IF NOT EXISTS idx_timestamp ON log(timestamp);`;
+        this.db.execute(query);
+    }
+
     public record(data: ILog): void {
         const query = `
             INSERT INTO log (value,timestamp,label)
@@ -62,24 +61,13 @@ class DB {
         this.db.execute(query, [data.value, data.timestamp, data.label]);
     }
 
-    public getAll(): ILog[] | undefined {
-        const {rows} = this.db.execute('SELECT * FROM log');
+    public getAll(timeStamp: number): ILog[] | undefined {
+        const {rows} = this.db.execute('SELECT * FROM log WHERE timestamp >= ?', [timeStamp]);
         return rows?._array;
     }
 
     public clearAll(): void {
         this.db.execute('DELETE FROM log');
-    }
-
-    public getMaxAndMinValue() {
-        const query = `SELECT 
-            (SELECT timestamp FROM log WHERE value = (SELECT MIN(value) FROM log)) AS min_timestamp,
-            MIN(value) AS min_value,
-            (SELECT timestamp FROM log WHERE value = (SELECT MAX(value) FROM log)) AS max_timestamp,
-            MAX(value) AS max_value
-        FROM log`;
-        const {rows} = this.db.execute(query);
-        return rows?._array[0];
     }
 
     public getRange(maxVal: number, minVal: number): PercentageRange {

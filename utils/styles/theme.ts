@@ -81,7 +81,7 @@ export const darkTheme: AppTheme = {
     },
     card: {
         background: '#2C323B',
-        border: '#333333',
+        border: palette.neutral800,
     },
     tab: {
         background: '#151515',

@@ -1,6 +1,6 @@
 import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
 import {forwardRef, useCallback, useMemo, useState} from 'react';
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
@@ -66,7 +66,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                 <BottomSheetTextInput
                     style={styles.input}
                     clearButtonMode={'always'}
-                    placeholder={'Min Range'}
+                    placeholder={'Max Range'}
                     onChangeText={setMaxRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
@@ -111,14 +111,13 @@ const stylesheet = createStyleSheet(theme => ({
         backgroundColor: theme.colors.text.tertiary,
     },
     input: {
-        borderWidth: 1,
+        backgroundColor: theme.card.background,
         marginTop: theme.spacing.s,
-        borderRadius: theme.spacing.l,
+        borderRadius: theme.spacing.m,
         padding: theme.spacing.m,
         color: theme.colors.text.primary,
     },
     confirmButton: {
-        borderWidth: 1,
         borderColor: theme.card.border,
         borderRadius: theme.rounded.m,
         padding: theme.spacing.m,

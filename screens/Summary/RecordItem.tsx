@@ -8,7 +8,7 @@ export function RecordItem(data: ILog) {
     return (
         <View style={styles.container}>
             <View style={{flex: 1}}>
-                <Text weight="500">{data.label}</Text>
+                {data.label !== '' && <Text weight="500">{data.label}</Text>}
                 <Text color="secondary">{new Date(data.timestamp).toLocaleString()}</Text>
             </View>
             <Text weight="600" style={styles.value}>

@@ -21,7 +21,12 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
     const appTheme = getDefaultTheme();
 
     function onConfirm(theme: Theme) {
-        UnistylesRuntime.setTheme(theme);
+        if (theme === 'system') {
+            UnistylesRuntime.setAdaptiveThemes(true);
+        } else {
+            UnistylesRuntime.setAdaptiveThemes(false);
+            UnistylesRuntime.setTheme(theme);
+        }
         setDefaultTheme(theme);
         ref.current?.close();
     }
@@ -45,13 +50,25 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
                 <TouchableOpacity
                     onPress={() => onConfirm('dark')}
                     style={[styles.unit, appTheme === 'dark' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'}>Dark</Text>
+                    <Text variant={'h3'} style={appTheme === 'dark' && {color: 'white'}}>
+                        Dark
+                    </Text>
                 </TouchableOpacity>
                 <View style={{marginTop: 14}}></View>
                 <TouchableOpacity
                     onPress={() => onConfirm('light')}
                     style={[styles.unit, appTheme === 'light' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'}>Light</Text>
+                    <Text variant={'h3'} style={appTheme === 'light' && {color: 'white'}}>
+                        Light
+                    </Text>
+                </TouchableOpacity>
+                <View style={{marginTop: 14}}></View>
+                <TouchableOpacity
+                    onPress={() => onConfirm('system')}
+                    style={[styles.unit, appTheme === 'system' && {backgroundColor: theme.colors.primary}]}>
+                    <Text variant={'h3'} style={appTheme === 'system' && {color: 'white'}}>
+                        System
+                    </Text>
                 </TouchableOpacity>
             </BottomSheetScrollView>
         </BottomSheetModal>

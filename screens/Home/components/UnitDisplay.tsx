@@ -3,10 +3,10 @@ import {TouchableOpacity} from 'react-native';
 import React, {memo} from 'react';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/Text/Text';
-import {Unit} from '@/screens/Home/constants';
+import {DefaultDataUnit} from '@/storage/atoms/unit';
 
 type Props = {
-    unit: Unit;
+    unit: DefaultDataUnit;
     value: string;
     isSelected: boolean;
     onPress: () => void;

@@ -3,9 +3,9 @@ import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unisty
 import {useCallback} from 'react';
 import {LineChart} from 'react-native-wagmi-charts';
 import * as haptics from 'expo-haptics';
-import {Unit} from '../Home/constants';
 import {ILog} from '@/storage/db-service';
 import {useDataRange} from '@/storage/atoms/range';
+import {DefaultDataUnit} from '@/storage/atoms/unit';
 
 export const GRAPH_PERIOD = {
     DAY: '1',
@@ -28,7 +28,7 @@ export const GRAPH_PERIOD_LABELS: Record<GRAPH_PERIOD, string> = {
 type Props = {
     data: ILog[];
     period: GRAPH_PERIOD;
-    unit: Unit;
+    unit: DefaultDataUnit;
 };
 
 export const Chart = ({data}: Props) => {
@@ -44,18 +44,18 @@ export const Chart = ({data}: Props) => {
             <LineChart.Provider data={data} yRange={{min: 0, max: 500}}>
                 <LineChart height={380} width={UnistylesRuntime.screen.width}>
                     <LineChart.Path color={theme.colors.text.primary}>
-                        <LineChart.HorizontalLine at={{value: minVal}} color="green" />
-                        <LineChart.HorizontalLine at={{value: maxVal}} color="red" />
+                        <LineChart.HorizontalLine at={{value: maxVal}} color="green" />
+                        <LineChart.HorizontalLine at={{value: minVal}} color="red" />
                     </LineChart.Path>
                     <LineChart.CursorCrosshair
-                        color={theme.colors.text.tertiary}
+                        color={theme.colors.primary}
                         onActivated={invokeHaptic}
                         onEnded={invokeHaptic}>
                         <LineChart.HoverTrap />
                         <LineChart.Tooltip
-                            position="bottom"
+                            position="top"
                             textStyle={{
-                                color: 'white',
+                                color: theme.colors.text.primary,
                                 fontSize: 14,
                                 padding: 4,
                             }}></LineChart.Tooltip>

@@ -1,18 +1,18 @@
 import {useCallback, useState} from 'react';
+import {DefaultDataUnit, useDataUnit} from '@/storage/atoms/unit';
 
-export type Unit = 'mmol' | 'mg';
-export const UnitLabels: Record<Unit, string> = {
+export const UnitLabels: Record<DefaultDataUnit, string> = {
     mmol: 'mmol/L',
     mg: 'mg/dL',
 } as const;
 
 export const CONVERSION_FACTOR = 18;
 
-export const useGlucoseInput = (initialUnit: Unit) => {
+export const useGlucoseInput = (initialUnit: DefaultDataUnit) => {
     const [values, setValues] = useState({mmol: '0', mg: '0'});
-    const [currentUnit, setCurrentUnit] = useState<Unit>(initialUnit);
+    const [currentUnit, setCurrentUnit] = useState<DefaultDataUnit>(initialUnit);
 
-    const convertValue = useCallback((value: string, fromUnit: Unit): string => {
+    const convertValue = useCallback((value: string, fromUnit: DefaultDataUnit): string => {
         if (value === '0' || value === '') return '0';
         if (value === '.') return value;
         const floatValue = parseFloat(value);

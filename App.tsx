@@ -15,7 +15,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from '@/navigation/Navigation';
 import {useFonts} from 'expo-font';
 import {useCallback} from 'react';
-import {UnistylesRegistry, useInitialTheme} from 'react-native-unistyles';
+import {UnistylesRegistry} from 'react-native-unistyles';
 import {breakpoints} from '@/utils/styles/breakpoints';
 import {darkTheme, lightTheme} from '@/utils/styles/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';

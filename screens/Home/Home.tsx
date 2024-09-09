@@ -1,6 +1,6 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
-import {useCallback, useRef} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import {ChartColumn, Save, Settings} from 'lucide-react-native';
 import {Keyboard} from './Keyboard';
 import {useGlucoseInput} from '@/screens/Home/constants';
@@ -9,11 +9,17 @@ import {Text} from '@/components/Text/Text';
 import {palette} from '@/utils/styles/palette';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {SaveModal} from '@/screens/Home/components/SaveModal';
+import {useDataUnit} from '@/storage/atoms/unit';
 
 export function Home({navigation}: any) {
     const {theme, styles} = useStyles(stylesheet);
-    const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput('mg');
+    const initialUnit = useDataUnit();
+    const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput(initialUnit);
     const model = useRef<BottomSheetModal>(null);
+
+    useEffect(() => {
+        setCurrentUnit(initialUnit);
+    }, [initialUnit]);
 
     const onSave = useCallback(() => {
         if (values.mg === '0' || values.mg === '') return;

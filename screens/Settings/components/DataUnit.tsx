@@ -2,7 +2,7 @@ import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomShee
 import {forwardRef, useCallback, useMemo, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {DefaultDataUnit, setDataUnit, useDataUnit} from '@/storage/atoms/unit';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
@@ -43,13 +43,17 @@ export const DataUnit = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
                 <TouchableOpacity
                     onPress={() => onConfirm('mmol')}
                     style={[styles.unit, unit === 'mmol' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'}>mmol/L</Text>
+                    <Text variant={'h3'} style={unit === 'mmol' && {color: 'white'}}>
+                        mmol/L
+                    </Text>
                 </TouchableOpacity>
                 <View style={{marginTop: 14}}></View>
                 <TouchableOpacity
                     onPress={() => onConfirm('mg')}
                     style={[styles.unit, unit === 'mg' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'}>mg/dl</Text>
+                    <Text variant={'h3'} style={unit === 'mg' && {color: 'white'}}>
+                        mg/dl
+                    </Text>
                 </TouchableOpacity>
             </BottomSheetScrollView>
         </BottomSheetModal>

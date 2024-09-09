@@ -10,6 +10,7 @@ import {DataUnit} from '@/screens/Settings/components/DataUnit';
 import {AppTheme} from '@/screens/Settings/components/AppTheme';
 import {getDefaultTheme} from '@/storage/theme';
 import DB from '@/storage/db-service';
+import {UnitLabels} from '@/screens/Home/constants';
 
 export function Settings() {
     const {styles, theme} = useStyles(stylesheet);
@@ -40,13 +41,17 @@ export function Settings() {
     }
 
     function onReset() {
-        Alert.alert('Reset All Data', 'Delete current data', [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-            },
-            {text: 'Delete', style: 'destructive', onPress: () => clearAll()},
-        ]);
+        Alert.alert(
+            'Reset All Data',
+            'Your data will be deleted from your device, this is irreversible, there’s no way to recover your data as it’s only stored on this device',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {text: 'Delete', style: 'destructive', onPress: () => clearAll()},
+            ],
+        );
     }
 
     return (
@@ -54,7 +59,7 @@ export function Settings() {
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={handleUnit} style={styles.setting}>
                     <Text weight={'500'}>Default unit </Text>
-                    <Text weight={'500'}>{unit}</Text>
+                    <Text weight={'500'}>{UnitLabels[unit]}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleRange} style={styles.setting}>
                     <Text weight={'500'}>Range</Text>
@@ -86,7 +91,7 @@ export function Settings() {
                     <Text weight={'500'}>1.1</Text>
                 </View>
                 <View style={[styles.setting, {borderBottomWidth: 0}]}>
-                    <Text>Github link with code</Text>
+                    <Text>Github</Text>
                 </View>
             </View>
             <DataRange ref={rangeRef} />
@@ -113,7 +118,7 @@ const stylesheet = createStyleSheet(theme => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomWidth: 1,
-        borderBottomColor: theme.colors.border,
+        borderBottomColor: theme.card.border,
         padding: theme.spacing.m,
     },
 }));
