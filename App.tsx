@@ -25,6 +25,11 @@ import {useEncryptionStorage} from '@/hooks/useEncryptedStorage';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));
 
+UnistylesRegistry.addBreakpoints(breakpoints).addThemes({
+    light: lightTheme,
+    dark: darkTheme,
+});
+
 export default function App() {
     const [encryptedStorageLoaded] = useEncryptionStorage();
     const [fontsLoaded] = useFonts({

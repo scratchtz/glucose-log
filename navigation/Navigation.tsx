@@ -11,15 +11,10 @@ import {getDefaultTheme} from '@/storage/theme';
 
 const Stack = createNativeStackNavigator();
 
-UnistylesRegistry.addBreakpoints(breakpoints).addThemes({
-    light: lightTheme,
-    dark: darkTheme,
-});
-
 export default function Navigation() {
     const defaultTheme = getDefaultTheme();
-
     useInitialTheme(defaultTheme);
+
     const {theme} = useStyles();
     const navigationTheme = useMemo(
         () => ({
