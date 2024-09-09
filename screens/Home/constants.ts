@@ -1,6 +1,10 @@
 import {useCallback, useState} from 'react';
 
 export type Unit = 'mmol' | 'mg';
+export const UnitLabels: Record<Unit, string> = {
+    mmol: 'mmol/L',
+    mg: 'mg/dL',
+} as const;
 
 export const CONVERSION_FACTOR = 18;
 
@@ -14,7 +18,7 @@ export const useGlucoseInput = (initialUnit: Unit) => {
         const floatValue = parseFloat(value);
         return fromUnit === 'mmol'
             ? (floatValue * CONVERSION_FACTOR).toFixed(0)
-            : (floatValue / CONVERSION_FACTOR).toFixed(2);
+            : (floatValue / CONVERSION_FACTOR).toFixed(1);
     }, []);
 
     const onNumberPress = (n: string) => {

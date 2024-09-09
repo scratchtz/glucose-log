@@ -24,7 +24,7 @@ export default function Navigation() {
 
     return (
         <NavigationContainer theme={navigationTheme}>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName="Home">
                 <Stack.Screen
                     name="Home"
                     component={Home}
@@ -38,7 +38,9 @@ export default function Navigation() {
                     component={Summary}
                     options={{
                         title: 'Summary',
-                        headerShown: false,
+                        presentation: 'modal',
+                        headerBackTitleVisible: false,
+                        headerTintColor: theme.colors.text.primary,
                     }}
                 />
             </Stack.Navigator>
