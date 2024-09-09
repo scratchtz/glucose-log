@@ -1,7 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {useCallback, useRef} from 'react';
-import {ChartColumn, Save} from 'lucide-react-native';
+import {ChartColumn, Save, Settings} from 'lucide-react-native';
 import {Keyboard} from './Keyboard';
 import {useGlucoseInput} from '@/screens/Home/constants';
 import {UnitDisplay} from '@/screens/Home/components/UnitDisplay';
@@ -11,7 +11,7 @@ import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {SaveModal} from '@/screens/Home/components/SaveModal';
 
 export function Home({navigation}: any) {
-    const {styles} = useStyles(stylesheet);
+    const {theme, styles} = useStyles(stylesheet);
     const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput('mg');
     const model = useRef<BottomSheetModal>(null);
 
@@ -23,6 +23,14 @@ export function Home({navigation}: any) {
     return (
         <View style={styles.container}>
             <View style={styles.iconsWrapper}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Settings');
+                    }}
+                    style={styles.actionWrapper}>
+                    <Settings color={theme.colors.text.primary} size={styles.actionIcon.fontSize} />
+                </TouchableOpacity>
+                <View style={{flex: 1}} />
                 <TouchableOpacity
                     onPress={onSave}
                     style={styles.actionWrapper}

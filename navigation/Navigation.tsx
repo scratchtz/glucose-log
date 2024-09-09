@@ -4,6 +4,7 @@ import {useMemo} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {Summary} from '@/screens/Summary/Summary';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Settings} from '@/screens/Settings/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,16 @@ export default function Navigation() {
                     component={Summary}
                     options={{
                         title: 'Summary',
+                        presentation: 'modal',
+                        headerBackTitleVisible: false,
+                        headerTintColor: theme.colors.text.primary,
+                    }}
+                />
+                <Stack.Screen
+                    name="Settings"
+                    component={Settings}
+                    options={{
+                        title: 'Settings',
                         presentation: 'modal',
                         headerBackTitleVisible: false,
                         headerTintColor: theme.colors.text.primary,
