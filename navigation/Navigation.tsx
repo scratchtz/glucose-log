@@ -1,14 +1,25 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {Home} from '@/screens/Home/Home';
-import {useMemo} from 'react';
-import {useStyles} from 'react-native-unistyles';
+import {useMemo, useState} from 'react';
+import {UnistylesRegistry, useInitialTheme, useStyles} from 'react-native-unistyles';
 import {Summary} from '@/screens/Summary/Summary';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Settings} from '@/screens/Settings/Settings';
+import {breakpoints} from '@/utils/styles/breakpoints';
+import {darkTheme, lightTheme} from '@/utils/styles/theme';
+import {getDefaultTheme} from '@/storage/theme';
 
 const Stack = createNativeStackNavigator();
 
+UnistylesRegistry.addBreakpoints(breakpoints).addThemes({
+    light: lightTheme,
+    dark: darkTheme,
+});
+
 export default function Navigation() {
+    const defaultTheme = getDefaultTheme();
+
+    useInitialTheme(defaultTheme);
     const {theme} = useStyles();
     const navigationTheme = useMemo(
         () => ({

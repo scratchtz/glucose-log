@@ -8,7 +8,7 @@ import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
 import {DataUnit} from '@/screens/Settings/components/DataUnit';
 import {AppTheme} from '@/screens/Settings/components/AppTheme';
-import {useDefaultTheme} from '@/storage/atoms/theme';
+import {getDefaultTheme} from '@/storage/theme';
 import DB from '@/storage/db-service';
 
 export function Settings() {
@@ -32,7 +32,7 @@ export function Settings() {
 
     const unit = useDataUnit();
     const {maxVal, minVal} = useDataRange();
-    const appTheme = useDefaultTheme();
+    const appTheme = getDefaultTheme();
 
     function clearAll() {
         const db = DB.getInstance();

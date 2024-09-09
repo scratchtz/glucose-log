@@ -5,7 +5,7 @@ import {Text} from '@/components/Text/Text';
 import {UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
-import {DefaultTheme, setDefaultTheme, useDefaultTheme} from '@/storage/atoms/theme';
+import {getDefaultTheme, setDefaultTheme, Theme} from '@/storage/theme';
 
 type Props = {};
 
@@ -18,9 +18,9 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
     const {styles, theme} = useStyles(commonStyles);
     const onClose = () => ref.current?.close();
 
-    const appTheme = useDefaultTheme();
+    const appTheme = getDefaultTheme();
 
-    function onConfirm(theme: DefaultTheme) {
+    function onConfirm(theme: Theme) {
         UnistylesRuntime.setTheme(theme);
         setDefaultTheme(theme);
         ref.current?.close();
