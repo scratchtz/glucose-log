@@ -22,7 +22,7 @@ export default function Navigation() {
             return;
         }
         UnistylesRuntime.setAdaptiveThemes(false);
-        UnistylesRuntime.setTheme(savedTheme === 'light' ? 'light' : 'dark');
+        UnistylesRuntime.setTheme(savedTheme as 'light' | 'dark');
     }, [savedTheme]);
 
     const {theme} = useStyles();
