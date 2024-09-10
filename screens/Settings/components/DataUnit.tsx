@@ -6,6 +6,7 @@ import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {DefaultDataUnit, setDataUnit, useDataUnit} from '@/storage/atoms/unit';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
+import {FullWindowOverlay} from 'react-native-screens';
 
 type Props = {};
 
@@ -26,12 +27,12 @@ export const DataUnit = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
 
     return (
         <BottomSheetModal
+            containerComponent={props => <FullWindowOverlay>{props.children}</FullWindowOverlay>}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}
             ref={ref}
             backdropComponent={renderBackdrop}
-            keyboardBehavior="extend"
             snapPoints={snapPoints}>
             <View style={styles.header}>
                 <Text variant="h3">Default Unit</Text>

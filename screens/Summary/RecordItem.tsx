@@ -2,9 +2,12 @@ import {View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/Text/Text';
 import {ILog} from '@/storage/db-service';
+import {useDataUnit} from '@/storage/atoms/unit';
 
 export function RecordItem(data: ILog) {
     const {styles} = useStyles(stylesheet);
+    const unit = useDataUnit();
+
     return (
         <View style={styles.container}>
             <View style={{flex: 1}}>
@@ -12,7 +15,7 @@ export function RecordItem(data: ILog) {
                 <Text color="secondary">{new Date(data.timestamp).toLocaleString()}</Text>
             </View>
             <Text weight="600" style={styles.value}>
-                {data.value}
+                {unit === 'mmol' ? (data.value / 18).toFixed(2) : data.value}
             </Text>
         </View>
     );

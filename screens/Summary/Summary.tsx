@@ -29,7 +29,6 @@ export function Summary() {
     const dataUnit = useDataUnit();
 
     const dataRangeRef = useRef<BottomSheetModal>(null);
-
     const handleDataRange = useCallback(() => {
         dataRangeRef.current?.present();
     }, []);
@@ -45,7 +44,7 @@ export function Summary() {
     const getTime = useMemo(() => {
         switch (period) {
             case '1':
-                return new Date(Date.now() - 24 * 60 * 60 * 1000).getTime();
+                return new Date(Date.now() - 60 * 60 * 1000).getTime();
             case '7':
                 return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).getTime();
             case '30':
@@ -82,7 +81,6 @@ export function Summary() {
     function fetchPercentageRange() {
         const db = DB.getInstance();
         const res = db.getRange(dataRange.maxVal, dataRange.minVal);
-        //res is in mg
         if (res) {
             setPercentageRange(res);
         }
@@ -92,13 +90,14 @@ export function Summary() {
         setDataUnit(dataUnit === 'mg' ? 'mmol' : 'mg');
     }, [dataUnit]);
 
-    if (!data || data.length === 0) {
+    if (data.length < 1) {
         return (
-            <View style={styles.container}>
-                <Text variant={'h1'}>No data to show</Text>
+            <View>
+                <Text>No data</Text>
             </View>
         );
     }
+
     return (
         <View style={{flex: 1}}>
             <FlashList
@@ -155,7 +154,6 @@ export function Summary() {
                         <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
                             Records
                         </Text>
-                        <DataRange ref={dataRangeRef} />
                     </>
                 }
             />

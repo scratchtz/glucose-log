@@ -1,11 +1,12 @@
 import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
 import {forwardRef, useCallback, useMemo} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
 import {getDefaultTheme, setDefaultTheme, Theme} from '@/storage/theme';
+import {FullWindowOverlay} from 'react-native-screens';
 
 type Props = {};
 
@@ -33,6 +34,7 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
 
     return (
         <BottomSheetModal
+            containerComponent={props => <FullWindowOverlay>{props.children}</FullWindowOverlay>}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

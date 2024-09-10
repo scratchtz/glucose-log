@@ -1,20 +1,17 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {Home} from '@/screens/Home/Home';
 import {useMemo} from 'react';
-import {UnistylesRuntime, useInitialTheme, useStyles} from 'react-native-unistyles';
+import {useInitialTheme, useStyles} from 'react-native-unistyles';
 import {Summary} from '@/screens/Summary/Summary';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Settings} from '@/screens/Settings/Settings';
-import {getDefaultTheme} from '@/storage/theme';
+import {useAppTheme} from '@/hooks/useAppTheme';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
-    const defaultTheme = getDefaultTheme();
-    if (defaultTheme === 'system') {
-        UnistylesRuntime.setAdaptiveThemes(true);
-    }
-    useInitialTheme(defaultTheme);
+    const t = useAppTheme();
+    useInitialTheme(t);
 
     const {theme} = useStyles();
     const navigationTheme = useMemo(
@@ -46,6 +43,7 @@ export default function Navigation() {
                     component={Summary}
                     options={{
                         title: 'Summary',
+                        presentation: 'modal',
                         headerBackTitleVisible: false,
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
@@ -56,6 +54,7 @@ export default function Navigation() {
                     component={Settings}
                     options={{
                         title: 'Settings',
+                        presentation: 'modal',
                         headerBackTitleVisible: false,
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,

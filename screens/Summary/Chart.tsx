@@ -59,6 +59,9 @@ export const Chart = ({data}: Props) => {
                                 fontSize: 14,
                                 padding: 4,
                             }}></LineChart.Tooltip>
+                        <LineChart.Tooltip position={'bottom'}>
+                            <LineChart.DatetimeText style={{color: theme.colors.text.primary}} />
+                        </LineChart.Tooltip>
                     </LineChart.CursorCrosshair>
                 </LineChart>
             </LineChart.Provider>

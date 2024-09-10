@@ -5,11 +5,7 @@ export type Theme = 'light' | 'dark' | 'system';
 
 export function getDefaultTheme(): Theme {
     const themeString = encryptedStorage.getString(StorageKeys.KEY_APP_THEME);
-    if (themeString === 'light' || themeString === 'dark' || themeString === 'system') {
-        return themeString as Theme;
-    } else {
-        return 'dark'; //sets to default
-    }
+    return themeString as Theme;
 }
 
 export function setDefaultTheme(theme: Theme) {

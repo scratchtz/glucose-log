@@ -4,7 +4,8 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
-import {setDataRange} from '@/storage/atoms/range';
+import {setDataRange, useDataRange} from '@/storage/atoms/range';
+import {FullWindowOverlay} from 'react-native-screens';
 
 type Props = {};
 
@@ -20,24 +21,24 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
     const {styles, theme} = useStyles(stylesheet);
     const onClose = () => ref.current?.close();
 
+    const {maxVal, minVal} = useDataRange();
+
     function onConfirm() {
-        if (!maxRange || !minRange) {
+        if ((!maxRange || !minRange) && (!maxVal || !minVal)) {
             return;
         }
-
         const max = parseFloat(maxRange);
         const min = parseFloat(minRange);
-
         if (min >= max) {
             return;
         }
-
-        setDataRange({minVal: min, maxVal: max});
+        setDataRange({minVal: min || minVal, maxVal: max || maxVal});
         ref.current?.close();
     }
 
     return (
         <BottomSheetModal
+            containerComponent={props => <FullWindowOverlay>{props.children}</FullWindowOverlay>}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}
@@ -57,6 +58,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     style={styles.input}
                     clearButtonMode={'always'}
                     placeholder={'Min Range'}
+                    defaultValue={minVal.toString()}
                     onChangeText={setMinRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
@@ -67,6 +69,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     style={styles.input}
                     clearButtonMode={'always'}
                     placeholder={'Max Range'}
+                    defaultValue={maxVal.toString()}
                     onChangeText={setMaxRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
