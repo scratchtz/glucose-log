@@ -1,17 +1,29 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {Home} from '@/screens/Home/Home';
-import {useMemo} from 'react';
-import {useInitialTheme, useStyles} from 'react-native-unistyles';
+import {useEffect, useMemo} from 'react';
+import {UnistylesRuntime, useInitialTheme, useStyles} from 'react-native-unistyles';
 import {Summary} from '@/screens/Summary/Summary';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Settings} from '@/screens/Settings/Settings';
 import {useAppTheme} from '@/hooks/useAppTheme';
+import {useMMKVString} from 'react-native-mmkv';
+import {StorageKeys} from '@/constants/storageKeys';
+import {encryptedStorage} from '@/storage/mmkv';
+import {lightTheme} from '@/utils/styles/theme';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
-    const t = useAppTheme();
-    useInitialTheme(t);
+    const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
+
+    useEffect(() => {
+        if (!savedTheme || savedTheme === 'system') {
+            UnistylesRuntime.setAdaptiveThemes(true);
+            return;
+        }
+        UnistylesRuntime.setAdaptiveThemes(false);
+        UnistylesRuntime.setTheme(savedTheme === 'light' ? 'light' : 'dark');
+    }, [savedTheme]);
 
     const {theme} = useStyles();
     const navigationTheme = useMemo(

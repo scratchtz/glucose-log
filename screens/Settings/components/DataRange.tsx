@@ -36,9 +36,10 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         ref.current?.close();
     }
 
+    const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
         <BottomSheetModal
-            containerComponent={props => <FullWindowOverlay>{props.children}</FullWindowOverlay>}
+            containerComponent={containerComponent}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

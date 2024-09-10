@@ -8,12 +8,15 @@ import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
 import {DataUnit} from '@/screens/Settings/components/DataUnit';
 import {AppTheme} from '@/screens/Settings/components/AppTheme';
-import {getDefaultTheme} from '@/storage/theme';
 import DB from '@/storage/db-service';
 import {UnitLabels} from '@/screens/Home/constants';
+import {useMMKVString} from 'react-native-mmkv';
+import {StorageKeys} from '@/constants/storageKeys';
+import {encryptedStorage} from '@/storage/mmkv';
 
 export function Settings() {
     const {styles, theme} = useStyles(stylesheet);
+    const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
 
     const rangeRef = useRef<BottomSheetModal>(null);
     const unitRef = useRef<BottomSheetModal>(null);
@@ -33,7 +36,6 @@ export function Settings() {
 
     const unit = useDataUnit();
     const {maxVal, minVal} = useDataRange();
-    const appTheme = getDefaultTheme();
 
     function clearAll() {
         const db = DB.getInstance();
@@ -69,7 +71,7 @@ export function Settings() {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleTheme} style={styles.setting}>
                     <Text weight={'500'}>Theme</Text>
-                    <Text weight={'500'}>{appTheme}</Text>
+                    <Text weight={'500'}>{savedTheme}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onReset} style={[styles.setting, {borderBottomWidth: 0}]}>
                     <Text>Reset data</Text>
