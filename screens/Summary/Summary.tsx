@@ -12,19 +12,19 @@ import {dataRangeAtom} from '@/storage/atoms/range';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
-import {getDefaultStore, useAtomValue} from 'jotai/index';
+import {getDefaultStore, useAtom, useAtomValue} from 'jotai/index';
 
 type Result = {
-    highest: {value: number; timestamp: number};
-    lowest: {value: number; timestamp: number};
+    highest: {value: number; timestamp: number; label: string};
+    lowest: {value: number; timestamp: number; label: string};
 };
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
     const [period, setPeriod] = useState<GRAPH_PERIOD>(GRAPH_PERIOD.MONTH);
 
-    const dataRange = useAtomValue(dataRangeAtom);
-    const dataUnit = useAtomValue(dataUnitAtom);
+    const [dataRange] = useAtom(dataRangeAtom);
+    const [dataUnit, setDataUnit] = useAtom(dataUnitAtom);
 
     const dataRangeRef = useRef<BottomSheetModal>(null);
     const handleDataRange = useCallback(() => {
@@ -41,40 +41,39 @@ export function Summary() {
         return [];
     }, [period]);
 
-    const result: Result =
-        data.length === 0
-            ? {
-                  highest: {value: 0, timestamp: 0},
-                  lowest: {value: 0, timestamp: 0},
-              }
-            : data.length === 1
-              ? {
-                    highest: {value: data[0].value, timestamp: data[0].timestamp},
-                    lowest: {value: data[0].value, timestamp: data[0].timestamp},
-                }
-              : data.reduce(
-                    (val, item) => ({
-                        highest:
-                            item.value > val.highest.value
-                                ? {value: item.value, timestamp: item.timestamp}
-                                : val.highest,
-                        lowest:
-                            item.value < val.lowest.value ? {value: item.value, timestamp: item.timestamp} : val.lowest,
-                    }),
-                    {
-                        highest: {value: data[0].value, timestamp: data[0].timestamp},
-                        lowest: {value: data[0].value, timestamp: data[0].timestamp},
-                    },
-                );
+    const result = useMemo((): Result => {
+        if (data.length === 0) {
+            return {
+                highest: {value: 0, timestamp: 0, label: ''},
+                lowest: {value: 0, timestamp: 0, label: ''},
+            };
+        }
+        return data.reduce(
+            (val, item) => ({
+                highest:
+                    item.value > val.highest.value
+                        ? {value: item.value, timestamp: item.timestamp, label: item.label}
+                        : val.highest,
+                lowest:
+                    item.value < val.lowest.value
+                        ? {value: item.value, timestamp: item.timestamp, label: item.label}
+                        : val.lowest,
+            }),
+            {
+                highest: {value: data[0].value, timestamp: data[0].timestamp, label: data[0].label},
+                lowest: {value: data[0].value, timestamp: data[0].timestamp, label: data[0].label},
+            },
+        );
+    }, [data]);
 
     const percentageRange = useMemo(() => {
         const res = data.filter(item => item.value >= dataRange.minVal && item.value <= dataRange.maxVal);
         return data.length === 0 ? 0 : (res.length / data.length) * 100;
     }, [data, dataRange]);
 
-    const toggleUnit = useCallback(() => {
-        getDefaultStore().set(dataUnitAtom, dataUnit === 'mg' ? 'mmol' : 'mg');
-    }, [dataUnit]);
+    const toggleUnit = () => {
+        setDataUnit(dataUnit === 'mg' ? 'mmol' : 'mg');
+    };
 
     return (
         <View style={{flex: 1}}>
@@ -86,12 +85,12 @@ export function Summary() {
                 ListHeaderComponent={
                     <>
                         <Text>
-                            Highest: {result.highest.value} on {new Date(result.highest.timestamp).toLocaleString()}{' '}
-                            (Sugar)
+                            Highest: {result.highest.value} on {new Date(result.highest.timestamp).toLocaleString()} (
+                            {result.highest.label})
                         </Text>
                         <Text>
-                            Lowest: {result.lowest.value} on {new Date(result.lowest.timestamp).toLocaleString()}{' '}
-                            (Glucose)
+                            Lowest: {result.lowest.value} on {new Date(result.lowest.timestamp).toLocaleString()} (
+                            {result.lowest.label})
                         </Text>
                         <Text>
                             Readings have been within the range {dataRange.minVal} - {dataRange.maxVal} mg{' '}
