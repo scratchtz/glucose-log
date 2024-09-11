@@ -1,15 +1,13 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {Home} from '@/screens/Home/Home';
 import {useEffect, useMemo} from 'react';
-import {UnistylesRuntime, useInitialTheme, useStyles} from 'react-native-unistyles';
+import {UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {Summary} from '@/screens/Summary/Summary';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Settings} from '@/screens/Settings/Settings';
-import {useAppTheme} from '@/hooks/useAppTheme';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
-import {lightTheme} from '@/utils/styles/theme';
 
 const Stack = createNativeStackNavigator();
 

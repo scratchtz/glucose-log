@@ -1,7 +1,5 @@
 import {IOS_LIBRARY_PATH, ANDROID_FILES_PATH, open, DB as Database} from '@op-engineering/op-sqlite';
 import {Platform} from 'react-native';
-import themeContext from '@react-navigation/native/src/theming/ThemeContext';
-import {useDataRange} from '@/storage/atoms/range';
 
 export type ILog = {
     id?: number;
@@ -24,7 +22,6 @@ class DB {
             location: Platform.OS === 'ios' ? IOS_LIBRARY_PATH : ANDROID_FILES_PATH,
         });
         this.init();
-        this.timeStampIndex();
     }
 
     public static getInstance(): DB {
@@ -43,14 +40,12 @@ class DB {
                 label TEXT NOT NULL DEFAULT ''
             )`;
             this.db.execute(createQuery);
+
+            const indexQuery = `CREATE INDEX IF NOT EXISTS idx_timestamp ON log(timestamp);`;
+            this.db.execute(indexQuery);
         } catch (e) {
             console.log(e);
         }
-    }
-
-    public timeStampIndex(): void {
-        const query = `CREATE INDEX IF NOT EXISTS idx_timestamp ON log(timestamp);`;
-        this.db.execute(query);
     }
 
     public record(data: ILog): void {

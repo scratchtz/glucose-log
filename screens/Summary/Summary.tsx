@@ -1,4 +1,4 @@
-import {SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useCallback, useMemo, useRef, useState} from 'react';
@@ -11,7 +11,6 @@ import {RecordItem} from './RecordItem';
 import {FlashList} from '@shopify/flash-list';
 import {useDataRange} from '@/storage/atoms/range';
 import {setDataUnit, useDataUnit} from '@/storage/atoms/unit';
-import {DataRange} from '@/screens/Settings/components/DataRange';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 
 type Result = {

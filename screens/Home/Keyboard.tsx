@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {Delete} from 'lucide-react-native';
-import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type Props = {
     onNumberPress: (n: string) => void;

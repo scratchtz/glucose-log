@@ -21,15 +21,18 @@ import {darkTheme, lightTheme} from '@/utils/styles/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useEncryptionStorage} from '@/hooks/useEncryptedStorage';
-import {encryptedStorage} from '@/storage/mmkv';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));
 
-UnistylesRegistry.addBreakpoints(breakpoints).addThemes({
-    light: lightTheme,
-    dark: darkTheme,
-});
+UnistylesRegistry.addBreakpoints(breakpoints)
+    .addThemes({
+        light: lightTheme,
+        dark: darkTheme,
+    })
+    .addConfig({
+        initialTheme: 'light',
+    });
 
 export default function App() {
     const [encryptedStorageLoaded] = useEncryptionStorage();

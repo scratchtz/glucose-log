@@ -15,7 +15,7 @@ export function RecordItem(data: ILog) {
                 <Text color="secondary">{new Date(data.timestamp).toLocaleString()}</Text>
             </View>
             <Text weight="600" style={styles.value}>
-                {unit === 'mmol' ? (data.value / 18).toFixed(2) : data.value}
+                {unit === 'mmol' ? (data.value / 18).toFixed(1) : data.value}
             </Text>
         </View>
     );
