@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {DefaultDataUnit, useDataUnit} from '@/storage/atoms/unit';
+import {DefaultDataUnit} from '@/storage/atoms/unit';
 
 export const UnitLabels: Record<DefaultDataUnit, string> = {
     mmol: 'mmol/L',

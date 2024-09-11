@@ -1,8 +1,7 @@
 import {Alert, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import {useDataUnit} from '@/storage/atoms/unit';
-import {useDataRange} from '@/storage/atoms/range';
+import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
+import {dataRangeAtom} from '@/storage/atoms/range';
 import {useCallback, useRef} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
@@ -13,6 +12,8 @@ import {UnitLabels} from '@/screens/Home/constants';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
+import {useAtomValue} from 'jotai/index';
+import {dataUnitAtom} from '@/storage/atoms/unit';
 
 export function Settings() {
     const {styles, theme} = useStyles(stylesheet);
@@ -34,8 +35,8 @@ export function Settings() {
         themeRef.current?.present();
     }, []);
 
-    const unit = useDataUnit();
-    const {maxVal, minVal} = useDataRange();
+    const unit = useAtomValue(dataUnitAtom);
+    const {maxVal, minVal} = useAtomValue(dataRangeAtom);
 
     function clearAll() {
         const db = DB.getInstance();
@@ -71,7 +72,7 @@ export function Settings() {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleTheme} style={styles.setting}>
                     <Text weight={'500'}>Theme</Text>
-                    <Text weight={'500'}>{savedTheme}</Text>
+                    <Text weight={'500'}>{savedTheme || UnistylesRuntime.themeName}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onReset} style={[styles.setting, {borderBottomWidth: 0}]}>
                     <Text>Reset data</Text>

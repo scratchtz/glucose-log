@@ -9,11 +9,12 @@ import {Text} from '@/components/Text/Text';
 import {palette} from '@/utils/styles/palette';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {SaveModal} from '@/screens/Home/components/SaveModal';
-import {useDataUnit} from '@/storage/atoms/unit';
+import {dataUnitAtom} from '@/storage/atoms/unit';
+import {useAtomValue} from 'jotai/index';
 
 export function Home({navigation}: any) {
     const {theme, styles} = useStyles(stylesheet);
-    const initialUnit = useDataUnit();
+    const initialUnit = useAtomValue(dataUnitAtom);
     const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput(initialUnit);
     const model = useRef<BottomSheetModal>(null);
 

@@ -2,11 +2,12 @@ import {View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/Text/Text';
 import {ILog} from '@/storage/db-service';
-import {useDataUnit} from '@/storage/atoms/unit';
+import {dataUnitAtom} from '@/storage/atoms/unit';
+import {useAtomValue} from 'jotai/index';
 
 export function RecordItem(data: ILog) {
     const {styles} = useStyles(stylesheet);
-    const unit = useDataUnit();
+    const unit = useAtomValue(dataUnitAtom);
 
     return (
         <View style={styles.container}>

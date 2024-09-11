@@ -1,12 +1,13 @@
-import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
-import {forwardRef, useCallback, useMemo, useState} from 'react';
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import {forwardRef, useCallback, useMemo} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
-import {DefaultDataUnit, setDataUnit, useDataUnit} from '@/storage/atoms/unit';
+import {dataUnitAtom, DefaultDataUnit} from '@/storage/atoms/unit';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
 import {FullWindowOverlay} from 'react-native-screens';
+import {getDefaultStore, useAtomValue} from 'jotai/index';
 
 type Props = {};
 
@@ -16,12 +17,12 @@ export const DataUnit = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
-    const unit = useDataUnit();
+    const unit = useAtomValue(dataUnitAtom);
     const {styles, theme} = useStyles(commonStyles);
     const onClose = () => ref.current?.close();
 
     function onConfirm(unit: DefaultDataUnit) {
-        setDataUnit(unit);
+        getDefaultStore().set(dataUnitAtom, unit);
         ref.current?.close();
     }
 

@@ -4,8 +4,9 @@ import {useCallback} from 'react';
 import {LineChart} from 'react-native-wagmi-charts';
 import * as haptics from 'expo-haptics';
 import {ILog} from '@/storage/db-service';
-import {useDataRange} from '@/storage/atoms/range';
+import {dataRangeAtom} from '@/storage/atoms/range';
 import {DefaultDataUnit} from '@/storage/atoms/unit';
+import {useAtomValue} from 'jotai/index';
 
 export const GRAPH_PERIOD = {
     DAY: '1',
@@ -36,7 +37,7 @@ export const Chart = ({data}: Props) => {
         haptics.impactAsync(haptics.ImpactFeedbackStyle.Light);
     }, []);
 
-    const {maxVal, minVal} = useDataRange();
+    const {maxVal, minVal} = useAtomValue(dataRangeAtom);
 
     const {styles, theme} = useStyles(stylesheet);
     return (

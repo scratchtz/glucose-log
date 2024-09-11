@@ -2,16 +2,17 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useCallback, useMemo, useRef, useState} from 'react';
-import DB, {ILog, PercentageRange} from '@/storage/db-service';
-import {useFocusEffect} from '@react-navigation/core';
+import DB from '@/storage/db-service';
 import {Chart, GRAPH_PERIOD, GRAPH_PERIOD_LABELS, GRAPH_PERIODS} from './Chart';
 import {Gauge, Infinity} from 'lucide-react-native';
 import {UnitLabels} from '../Home/constants';
 import {RecordItem} from './RecordItem';
 import {FlashList} from '@shopify/flash-list';
-import {useDataRange} from '@/storage/atoms/range';
-import {setDataUnit, useDataUnit} from '@/storage/atoms/unit';
+import {dataRangeAtom} from '@/storage/atoms/range';
+import {dataUnitAtom} from '@/storage/atoms/unit';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {DataRange} from '@/screens/Settings/components/DataRange';
+import {getDefaultStore, useAtomValue} from 'jotai/index';
 
 type Result = {
     highest: {value: number; timestamp: number};
@@ -20,44 +21,26 @@ type Result = {
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
-    const [data, setData] = useState<ILog[]>([]);
     const [period, setPeriod] = useState<GRAPH_PERIOD>(GRAPH_PERIOD.MONTH);
-    const [percentageRange, setPercentageRange] = useState<PercentageRange | undefined>(undefined);
 
-    const dataRange = useDataRange();
-    const dataUnit = useDataUnit();
+    const dataRange = useAtomValue(dataRangeAtom);
+    const dataUnit = useAtomValue(dataUnitAtom);
 
     const dataRangeRef = useRef<BottomSheetModal>(null);
     const handleDataRange = useCallback(() => {
         dataRangeRef.current?.present();
     }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            fetchData();
-            fetchPercentageRange();
-        }, [dataRange, period]),
-    );
-
-    //sub current time to get data range
-    const getTime = useMemo(() => {
-        switch (period) {
-            case '1':
-                return new Date(Date.now() - 60 * 60 * 1000).getTime();
-            case '7':
-                return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).getTime();
-            case '30':
-                return new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).getTime();
-            case '90':
-                return new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).getTime();
-            case '365':
-                return new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).getTime();
-            default:
-                return Date.now();
+    const data = useMemo(() => {
+        const timestamp = new Date(Date.now() - parseInt(period) * 24 * 60 * 60 * 1000).getTime();
+        const db = DB.getInstance();
+        const res = db.getAll(timestamp);
+        if (res) {
+            return res;
         }
+        return [];
     }, [period]);
 
-    //get the highest and lowest data levels
     const result: Result = data.reduce(
         (val, item) => ({
             highest: item.value > val.highest.value ? {value: item.value, timestamp: item.timestamp} : val.highest,
@@ -65,37 +48,18 @@ export function Summary() {
         }),
         {
             highest: {value: 0, timestamp: 0},
-            lowest: {value: Number.MAX_VALUE, timestamp: 0},
+            lowest: {value: 0, timestamp: 0},
         },
     );
 
-    function fetchData() {
-        const db = DB.getInstance();
-        const res = db.getAll(getTime);
-        if (res) {
-            setData(res);
-        }
-    }
-
-    function fetchPercentageRange() {
-        const db = DB.getInstance();
-        const res = db.getRange(dataRange.maxVal, dataRange.minVal);
-        if (res) {
-            setPercentageRange(res);
-        }
-    }
+    const percentageRange = useMemo(() => {
+        const res = data.filter(item => item.value >= dataRange.minVal && item.value <= dataRange.maxVal);
+        return data.length === 0 ? 0 : (res.length / data.length) * 100;
+    }, [data, dataRange]);
 
     const toggleUnit = useCallback(() => {
-        setDataUnit(dataUnit === 'mg' ? 'mmol' : 'mg');
+        getDefaultStore().set(dataUnitAtom, dataUnit === 'mg' ? 'mmol' : 'mg');
     }, [dataUnit]);
-
-    if (data.length < 1) {
-        return (
-            <View>
-                <Text>No data</Text>
-            </View>
-        );
-    }
 
     return (
         <View style={{flex: 1}}>
@@ -107,35 +71,41 @@ export function Summary() {
                 ListHeaderComponent={
                     <>
                         <Text>
-                            Highest: {result.highest.value} on {new Date(result.highest.timestamp).toLocaleString()}{' '}
-                            (Sugar)
+                            Highest: {result.highest.value || 0} on{' '}
+                            {new Date(result.highest.timestamp).toLocaleString()} (Sugar)
                         </Text>
                         <Text>
-                            Lowest: {result.lowest.value} on {new Date(result.lowest.timestamp).toLocaleString()}{' '}
+                            Lowest: {result.lowest.value || 0} on {new Date(result.lowest.timestamp).toLocaleString()}{' '}
                             (Glucose)
                         </Text>
                         <Text>
                             Readings have been within the range {dataRange.minVal} - {dataRange.maxVal} mg{' '}
-                            {percentageRange?.range}% of the times.
+                            {percentageRange.toFixed(2)}% of the times.
                         </Text>
-                        <View>
-                            <View style={styles.graphActions}>
-                                <Text style={{fontSize: 32}} color="tertiary">
-                                    {GRAPH_PERIOD_LABELS[period]}
-                                </Text>
-                                <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
-                                    <Infinity size={18} color={theme.colors.text.primary} />
-                                    <Text>
-                                        {dataRange.minVal} - {dataRange.maxVal}
+                        {data.length > 0 ? (
+                            <View>
+                                <View style={styles.graphActions}>
+                                    <Text style={{fontSize: 32}} color="tertiary">
+                                        {GRAPH_PERIOD_LABELS[period]}
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
-                                    <Gauge size={18} color={theme.colors.text.primary} />
-                                    <Text>{UnitLabels[dataUnit]}</Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
+                                        <Infinity size={18} color={theme.colors.text.primary} />
+                                        <Text>
+                                            {dataRange.minVal} - {dataRange.maxVal}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
+                                        <Gauge size={18} color={theme.colors.text.primary} />
+                                        <Text>{UnitLabels[dataUnit]}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Chart data={data} period={GRAPH_PERIOD.MONTH} unit={dataUnit} />
                             </View>
-                            <Chart data={data} period={GRAPH_PERIOD.MONTH} unit={dataUnit} />
-                        </View>
+                        ) : (
+                            <View style={styles.noDataWrap}>
+                                <Text variant={'h1'}>No data</Text>
+                            </View>
+                        )}
                         <View style={styles.selectors}>
                             {GRAPH_PERIODS.map((period, index) => {
                                 return (
@@ -153,6 +123,7 @@ export function Summary() {
                         <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
                             Records
                         </Text>
+                        <DataRange ref={dataRangeRef} />
                     </>
                 }
             />
@@ -198,5 +169,9 @@ const stylesheet = createStyleSheet(theme => ({
         borderRadius: theme.rounded.full,
         flexDirection: 'row',
         gap: theme.spacing.s,
+    },
+    noDataWrap: {
+        alignItems: 'center',
+        paddingVertical: theme.spacing.xl,
     },
 }));

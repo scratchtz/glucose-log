@@ -4,8 +4,9 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
-import {setDataRange, useDataRange} from '@/storage/atoms/range';
+import {dataRangeAtom} from '@/storage/atoms/range';
 import {FullWindowOverlay} from 'react-native-screens';
+import {getDefaultStore, useAtomValue} from 'jotai/index';
 
 type Props = {};
 
@@ -21,7 +22,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
     const {styles, theme} = useStyles(stylesheet);
     const onClose = () => ref.current?.close();
 
-    const {maxVal, minVal} = useDataRange();
+    const {maxVal, minVal} = useAtomValue(dataRangeAtom);
 
     function onConfirm() {
         if ((!maxRange || !minRange) && (!maxVal || !minVal)) {
@@ -32,7 +33,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         if (min >= max) {
             return;
         }
-        setDataRange({minVal: min || minVal, maxVal: max || maxVal});
+        getDefaultStore().set(dataRangeAtom, {minVal: min || minVal, maxVal: max || maxVal});
         ref.current?.close();
     }
 

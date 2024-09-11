@@ -1,8 +1,8 @@
-import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {forwardRef, useCallback, useMemo} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
-import {UnistylesRuntime, useStyles} from 'react-native-unistyles';
+import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
 import {FullWindowOverlay} from 'react-native-screens';
@@ -11,6 +11,12 @@ import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
 
 type Props = {};
+
+const THEME = [
+    {theme: 'dark', label: 'Dark'},
+    {theme: 'light', label: 'Light'},
+    {theme: 'system', label: 'System'},
+];
 
 export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
     const snapPoints = useMemo(() => ['35', '50%'], []);
@@ -45,29 +51,22 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
                 </TouchableOpacity>
             </View>
             <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
-                <TouchableOpacity
-                    onPress={() => onConfirm('dark')}
-                    style={[styles.unit, savedTheme === 'dark' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'} style={savedTheme === 'dark' && {color: 'white'}}>
-                        Dark
-                    </Text>
-                </TouchableOpacity>
-                <View style={{marginTop: 14}}></View>
-                <TouchableOpacity
-                    onPress={() => onConfirm('light')}
-                    style={[styles.unit, savedTheme === 'light' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'} style={savedTheme === 'light' && {color: 'white'}}>
-                        Light
-                    </Text>
-                </TouchableOpacity>
-                <View style={{marginTop: 14}}></View>
-                <TouchableOpacity
-                    onPress={() => onConfirm('system')}
-                    style={[styles.unit, savedTheme === 'system' && {backgroundColor: theme.colors.primary}]}>
-                    <Text variant={'h3'} style={savedTheme === 'system' && {color: 'white'}}>
-                        System
-                    </Text>
-                </TouchableOpacity>
+                {THEME.map(t => (
+                    <TouchableOpacity
+                        key={t.theme}
+                        onPress={() => onConfirm(t.theme)}
+                        style={[
+                            styles.unit,
+                            savedTheme === t.theme && {
+                                backgroundColor: theme.colors.primary,
+                            },
+                            {marginBottom: 14},
+                        ]}>
+                        <Text variant={'h3'} style={savedTheme === t.theme && {color: 'white'}}>
+                            {t.label}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
             </BottomSheetScrollView>
         </BottomSheetModal>
     );
