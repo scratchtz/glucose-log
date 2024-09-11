@@ -41,16 +41,31 @@ export function Summary() {
         return [];
     }, [period]);
 
-    const result: Result = data.reduce(
-        (val, item) => ({
-            highest: item.value > val.highest.value ? {value: item.value, timestamp: item.timestamp} : val.highest,
-            lowest: item.value < val.lowest.value ? {value: item.value, timestamp: item.timestamp} : val.lowest,
-        }),
-        {
-            highest: {value: 0, timestamp: 0},
-            lowest: {value: 0, timestamp: 0},
-        },
-    );
+    const result: Result =
+        data.length === 0
+            ? {
+                  highest: {value: 0, timestamp: 0},
+                  lowest: {value: 0, timestamp: 0},
+              }
+            : data.length === 1
+              ? {
+                    highest: {value: data[0].value, timestamp: data[0].timestamp},
+                    lowest: {value: data[0].value, timestamp: data[0].timestamp},
+                }
+              : data.reduce(
+                    (val, item) => ({
+                        highest:
+                            item.value > val.highest.value
+                                ? {value: item.value, timestamp: item.timestamp}
+                                : val.highest,
+                        lowest:
+                            item.value < val.lowest.value ? {value: item.value, timestamp: item.timestamp} : val.lowest,
+                    }),
+                    {
+                        highest: {value: data[0].value, timestamp: data[0].timestamp},
+                        lowest: {value: data[0].value, timestamp: data[0].timestamp},
+                    },
+                );
 
     const percentageRange = useMemo(() => {
         const res = data.filter(item => item.value >= dataRange.minVal && item.value <= dataRange.maxVal);
@@ -71,11 +86,11 @@ export function Summary() {
                 ListHeaderComponent={
                     <>
                         <Text>
-                            Highest: {result.highest.value || 0} on{' '}
-                            {new Date(result.highest.timestamp).toLocaleString()} (Sugar)
+                            Highest: {result.highest.value} on {new Date(result.highest.timestamp).toLocaleString()}{' '}
+                            (Sugar)
                         </Text>
                         <Text>
-                            Lowest: {result.lowest.value || 0} on {new Date(result.lowest.timestamp).toLocaleString()}{' '}
+                            Lowest: {result.lowest.value} on {new Date(result.lowest.timestamp).toLocaleString()}{' '}
                             (Glucose)
                         </Text>
                         <Text>
