@@ -7,7 +7,6 @@ import {ILog} from '@/storage/db-service';
 import {dataRangeAtom} from '@/storage/atoms/range';
 import {dataUnitAtom, DefaultDataUnit} from '@/storage/atoms/unit';
 import {useAtomValue} from 'jotai/index';
-import {palette} from '@/utils/styles/palette';
 
 export const GRAPH_PERIOD = {
     DAY: '1',
@@ -93,8 +92,8 @@ export const Chart = ({data, highest, lowest}: Props) => {
                                 format={({value}) => {
                                     'worklet';
                                     return unit === 'mmol'
-                                        ? (parseFloat(value) / 18).toFixed(1)
-                                        : parseFloat(value).toFixed(0);
+                                        ? `${(parseFloat(value) / 18).toFixed(1)} ${unit}`
+                                        : `${parseFloat(value).toFixed(0)} ${unit}`;
                                 }}
                             />
                         </LineChart.Tooltip>

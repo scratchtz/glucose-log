@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {useCallback, useEffect, useRef} from 'react';
 import {ChartColumn, Save, Settings} from 'lucide-react-native';
@@ -6,7 +6,6 @@ import {Keyboard} from './Keyboard';
 import {useGlucoseInput} from '@/screens/Home/constants';
 import {UnitDisplay} from '@/screens/Home/components/UnitDisplay';
 import {Text} from '@/components/Text/Text';
-import {palette} from '@/utils/styles/palette';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {SaveModal} from '@/screens/Home/components/SaveModal';
 import {dataUnitAtom} from '@/storage/atoms/unit';

@@ -7,6 +7,9 @@ import {X} from 'lucide-react-native';
 import {dataRangeAtom} from '@/storage/atoms/range';
 import {FullWindowOverlay} from 'react-native-screens';
 import {getDefaultStore, useAtomValue} from 'jotai/index';
+import {useAtom} from 'jotai';
+import {dataUnitAtom} from '@/storage/atoms/unit';
+import {UnitLabels} from '@/screens/Home/constants';
 
 type Props = {};
 
@@ -16,13 +19,19 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
+
+    const [currentUnit] = useAtom(dataUnitAtom);
+    const {maxVal, minVal} = useAtomValue(dataRangeAtom);
+
     const [minRange, setMinRange] = useState('');
     const [maxRange, setMaxRange] = useState('');
 
     const {styles, theme} = useStyles(stylesheet);
     const onClose = () => ref.current?.close();
 
-    const {maxVal, minVal} = useAtomValue(dataRangeAtom);
+    function onChangeMinRange(val: string) {
+        //set min range here
+    }
 
     function onConfirm() {
         if ((!maxRange || !minRange) && (!maxVal || !minVal)) {
@@ -49,7 +58,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
             keyboardBehavior="extend"
             snapPoints={snapPoints}>
             <View style={styles.header}>
-                <Text variant="h3">Default Range</Text>
+                <Text variant="h3">Default Range in {UnitLabels[currentUnit]}</Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />
                 </TouchableOpacity>
@@ -60,18 +69,18 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     style={styles.input}
                     clearButtonMode={'always'}
                     placeholder={'Min Range'}
-                    defaultValue={minVal.toString()}
-                    onChangeText={setMinRange}
+                    defaultValue={currentUnit === 'mmol' ? (minVal / 18).toFixed(2) : minVal.toString()}
+                    onChangeText={onChangeMinRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
                 />
                 <View style={{marginTop: theme.spacing.m}}></View>
-                <Text color={'tertiary'}>Pick Max Range</Text>
+                <Text color={'tertiary'}>Pick Max Range </Text>
                 <BottomSheetTextInput
                     style={styles.input}
                     clearButtonMode={'always'}
                     placeholder={'Max Range'}
-                    defaultValue={maxVal.toString()}
+                    defaultValue={currentUnit === 'mmol' ? (maxVal / 18).toFixed(2) : maxVal.toString()}
                     onChangeText={setMaxRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}

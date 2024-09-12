@@ -15,7 +15,7 @@ import {encryptedStorage} from '@/storage/mmkv';
 import {useAtomValue} from 'jotai/index';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 
-export function Settings() {
+export function Settings({navigation}: any) {
     const {styles, theme} = useStyles(stylesheet);
     const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
 
@@ -67,7 +67,8 @@ export function Settings() {
                 <TouchableOpacity onPress={handleRange} style={styles.setting}>
                     <Text weight={'500'}>Range</Text>
                     <Text weight={'500'}>
-                        {minVal} - {maxVal}
+                        {unit === 'mmol' ? (minVal / 18).toFixed(2) : minVal} -
+                        {unit === 'mmol' ? (maxVal / 18).toFixed(2) : maxVal} {UnitLabels[unit]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleTheme} style={styles.setting}>
@@ -80,15 +81,15 @@ export function Settings() {
             </View>
             <View style={{marginTop: theme.spacing.m}}></View>
             <View style={styles.wrapper}>
-                <View style={styles.setting}>
+                <TouchableOpacity onPress={() => navigation.navigate('About')} style={styles.setting}>
                     <Text>About us</Text>
-                </View>
-                <View style={styles.setting}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Policy')} style={styles.setting}>
                     <Text>Privacy policy</Text>
-                </View>
-                <View style={styles.setting}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Terms')} style={styles.setting}>
                     <Text>Terms and conditions</Text>
-                </View>
+                </TouchableOpacity>
                 <View style={styles.setting}>
                     <Text>App version</Text>
                     <Text weight={'500'}>1.1</Text>

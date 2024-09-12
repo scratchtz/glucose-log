@@ -8,6 +8,9 @@ import {Settings} from '@/screens/Settings/Settings';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
+import {AboutUs} from '@/screens/Settings/components/about-us';
+import {Terms} from '@/screens/Settings/components/terms';
+import {PrivacyPolicy} from '@/screens/Settings/components/privacy-policy';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +67,39 @@ export default function Navigation() {
                     options={{
                         title: 'Settings',
                         headerBackTitleVisible: false,
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.text.primary,
+                    }}
+                />
+                <Stack.Screen
+                    name="About"
+                    component={AboutUs}
+                    options={{
+                        title: 'About Us',
+                        headerBackTitleVisible: false,
+                        presentation: 'modal',
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.text.primary,
+                    }}
+                />
+                <Stack.Screen
+                    name="Terms"
+                    component={Terms}
+                    options={{
+                        title: 'Terms & Conditions',
+                        headerBackTitleVisible: false,
+                        presentation: 'modal',
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.text.primary,
+                    }}
+                />
+                <Stack.Screen
+                    name="Policy"
+                    component={PrivacyPolicy}
+                    options={{
+                        title: 'Privacy Policy',
+                        headerBackTitleVisible: false,
+                        presentation: 'modal',
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
                     }}

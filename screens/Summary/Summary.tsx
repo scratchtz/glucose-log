@@ -1,10 +1,10 @@
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import {useCallback, useMemo, useRef, useState} from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 import DB, {ILog} from '@/storage/db-service';
 import {Chart, DataPoint, defaultDataPoint, GRAPH_PERIOD, GRAPH_PERIOD_LABELS, GRAPH_PERIODS} from './Chart';
-import {Gauge, Infinity, Ruler} from 'lucide-react-native';
+import {Gauge, Ruler} from 'lucide-react-native';
 import {UnitLabels} from '../Home/constants';
 import {RecordItem} from './RecordItem';
 import {FlashList} from '@shopify/flash-list';
@@ -12,21 +12,22 @@ import {dataRangeAtom} from '@/storage/atoms/range';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
-import {useAtom, useAtomValue} from 'jotai';
+import {useAtom} from 'jotai';
+import {useMMKVString} from 'react-native-mmkv';
+import {StorageKeys} from '@/constants/storageKeys';
+import {encryptedStorage} from '@/storage/mmkv';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
-    const [period, setPeriod] = useState<GRAPH_PERIOD>(GRAPH_PERIOD.MONTH);
+    const [period = GRAPH_PERIOD.DAY, setPeriod] = useMMKVString(StorageKeys.KEY_GRAPH_PERIOD, encryptedStorage);
 
     const [dataRange] = useAtom(dataRangeAtom);
-    const [dataUnit, setDataUnit] = useAtom(dataUnitAtom);
+    const [unit, setUnit] = useAtom(dataUnitAtom);
 
     const dataRangeRef = useRef<BottomSheetModal>(null);
     const handleDataRange = useCallback(() => {
         dataRangeRef.current?.present();
     }, []);
-
-    const unit = useAtomValue(dataUnitAtom);
 
     const data = useMemo(() => {
         const timestamp = new Date(Date.now() - parseInt(period) * 24 * 60 * 60 * 1000).getTime();
@@ -60,7 +61,7 @@ export function Summary() {
     }, [unit, dataRange]);
 
     const toggleUnit = () => {
-        setDataUnit(dataUnit === 'mg' ? 'mmol' : 'mg');
+        setUnit(unit === 'mg' ? 'mmol' : 'mg');
     };
 
     return (
@@ -72,14 +73,16 @@ export function Summary() {
             ListHeaderComponent={
                 <>
                     <Text>
-                        Highest: {highest.value} on {new Date(highest.timestamp).toLocaleString()} ({highest.label})
+                        Highest: {convertData(highest.value)} on {new Date(highest.timestamp).toLocaleString()} (
+                        {highest.label})
                     </Text>
                     <Text>
-                        Lowest: {lowest.value} on {new Date(lowest.timestamp).toLocaleString()} ({lowest.label})
+                        Lowest: {convertData(lowest.value)} on {new Date(lowest.timestamp).toLocaleString()} (
+                        {lowest.label})
                     </Text>
                     <Text>
-                        Readings have been within the range {dataRange.minVal} - {dataRange.maxVal} mg{' '}
-                        {percentageRange.toFixed(2)}% of the times.
+                        Readings have been within the range {convertData(dataRange.minVal)} -
+                        {convertData(dataRange.maxVal)} {unit} {percentageRange.toFixed(2)}% of the times.
                     </Text>
                     {data.length > 0 ? (
                         <View>
@@ -92,7 +95,7 @@ export function Summary() {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
                                     <Gauge size={18} color={theme.colors.text.primary} />
-                                    <Text>{UnitLabels[dataUnit]}</Text>
+                                    <Text>{UnitLabels[unit]}</Text>
                                 </TouchableOpacity>
                             </View>
                             <Chart
@@ -100,7 +103,7 @@ export function Summary() {
                                 lowest={lowest}
                                 data={data}
                                 period={GRAPH_PERIOD.MONTH}
-                                unit={dataUnit}
+                                unit={unit}
                             />
                         </View>
                     ) : (
@@ -154,6 +157,14 @@ const reduceDataPoints = (data: ILog[]) => {
         },
         {highest, lowest},
     );
+};
+
+const convertData = (data: number): string => {
+    const [unit] = useAtom(dataUnitAtom);
+    if (unit === 'mmol') {
+        return (data / 18).toFixed(2);
+    }
+    return data.toString();
 };
 
 const stylesheet = createStyleSheet(theme => ({
