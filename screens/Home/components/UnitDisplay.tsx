@@ -42,6 +42,6 @@ const stylesheet = createStyleSheet(theme => ({
         color: theme.colors.text.primary,
         fontFamily: 'Font-700',
         alignSelf: 'flex-end',
-        fontSize: 64,
+        fontSize: 80,
     },
 }));

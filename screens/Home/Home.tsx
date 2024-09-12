@@ -90,26 +90,23 @@ const stylesheet = createStyleSheet(theme => ({
     },
     actionWrapper: {
         borderRadius: theme.rounded.full,
+        borderColor: theme.colors.border,
         padding: theme.spacing.s,
+        gap: theme.spacing.s,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: theme.spacing.xs,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: theme.colors.border,
+        borderWidth: 1,
     },
     actionIconWrapper: {
-        backgroundColor: palette.neutral800,
-        borderRadius: theme.rounded.full,
         justifyContent: 'center',
         alignItems: 'center',
-        width: 28,
-        height: 28,
     },
     actionIcon: {
-        color: palette.white,
-        fontSize: 18,
+        color: theme.colors.text.primary,
+        fontSize: 20,
     },
     actionText: {
         color: theme.colors.text.primary,
+        fontFamily: 'Font-500',
     },
 }));

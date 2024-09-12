@@ -1,5 +1,4 @@
 import {atomWithMMKV} from './atom-mmkv';
-import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {StorageKeys} from '@/constants/storageKeys';
 
 export interface DataRange {

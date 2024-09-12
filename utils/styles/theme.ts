@@ -6,7 +6,7 @@ export type FontColor = 'primary' | 'secondary' | 'tertiary';
 export type TextVariant = 'h1' | 'h2' | 'h3' | 'body' | 'small' | 'tiny';
 
 export type AppTheme = typeof lightTheme;
-const primaryColor = palette.violet500;
+const primaryColor = '#214EFF';
 export const lightTheme = {
     id: 'light',
     isDark: false,
@@ -76,12 +76,12 @@ export const darkTheme: AppTheme = {
             secondary: palette.gray400,
             tertiary: palette.gray500,
         },
-        background: '#151515',
-        border: '#151515',
+        background: '#202948',
+        border: '#3C466E',
     },
     card: {
-        background: '#2C323B',
-        border: palette.neutral800,
+        background: '#2C365E',
+        border: '#3C466E',
     },
     tab: {
         background: '#151515',
