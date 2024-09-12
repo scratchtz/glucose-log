@@ -1,4 +1,4 @@
-import {Alert, ScrollView, TouchableOpacity, View} from 'react-native';
+import {Alert, Linking, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import {dataRangeAtom} from '@/storage/atoms/range';
@@ -42,6 +42,15 @@ export function Settings({navigation}: any) {
         const db = DB.getInstance();
         db.clearAll();
     }
+
+    const openGithub = async () => {
+        const url = 'https://github.com/scratchtz/glucose-log';
+        try {
+            await Linking.openURL(url);
+        } catch (error) {
+            console.error('An error occurred while opening the URL', error);
+        }
+    };
 
     function onReset() {
         Alert.alert(
@@ -94,9 +103,9 @@ export function Settings({navigation}: any) {
                     <Text>App version</Text>
                     <Text weight={'500'}>1.1</Text>
                 </View>
-                <View style={[styles.setting, {borderBottomWidth: 0}]}>
+                <TouchableOpacity onPress={openGithub} style={[styles.setting, {borderBottomWidth: 0}]}>
                     <Text>Github</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <DataRange ref={rangeRef} />
             <DataUnit ref={unitRef} />
