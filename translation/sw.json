@@ -1,0 +1,19 @@
+{
+  "welcome": "karibu",
+  "login": "ingia",
+  "logout": "ondoka",
+  "username": "jina la mtumiaji",
+  "password": "nenosiri",
+  "language": "lugha",
+  "select_language": "chagua lugha",
+  "submit": "wasilisha",
+  "cancel": "ghairi",
+  "error_message": "tatizo limejitokeza. tafadhali jaribu tena.",
+  "success_message": "operesheni imefanikiwa!",
+  "profile": "profaili",
+  "settings": "mipangilio",
+  "save": "okoa",
+  "home": "nyumbani",
+  "search": "tafuta",
+  "notifications": "arifa"
+}

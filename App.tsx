@@ -21,6 +21,7 @@ import {darkTheme, lightTheme} from '@/utils/styles/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useEncryptionStorage} from '@/hooks/useEncryptedStorage';
+import './i18n';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync().catch(e => console.warn(e));

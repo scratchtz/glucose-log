@@ -10,12 +10,14 @@ import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {SaveModal} from '@/screens/Home/components/SaveModal';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 import {useAtomValue} from 'jotai/index';
+import {useTranslation} from 'react-i18next';
 
 export function Home({navigation}: any) {
     const {theme, styles} = useStyles(stylesheet);
     const initialUnit = useAtomValue(dataUnitAtom);
     const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput(initialUnit);
     const model = useRef<BottomSheetModal>(null);
+    const {t} = useTranslation();
 
     useEffect(() => {
         setCurrentUnit(initialUnit);
@@ -44,7 +46,7 @@ export function Home({navigation}: any) {
                     <View style={styles.actionIconWrapper}>
                         <Save color={styles.actionIcon.color} size={styles.actionIcon.fontSize} />
                     </View>
-                    <Text style={styles.actionText}>Save</Text>
+                    <Text style={styles.actionText}>{t('Save')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Summary')}
