@@ -55,7 +55,7 @@ export function Home({navigation}: any) {
                     <View style={styles.actionIconWrapper}>
                         <ChartColumn color={styles.actionIcon.color} size={styles.actionIcon.fontSize} />
                     </View>
-                    <Text style={styles.actionText}>Summary</Text>
+                    <Text style={styles.actionText}>{t('home.summary')}</Text>
                 </TouchableOpacity>
             </View>
             <UnitDisplay

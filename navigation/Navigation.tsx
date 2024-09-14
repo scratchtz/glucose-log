@@ -11,11 +11,13 @@ import {encryptedStorage} from '@/storage/mmkv';
 import {AboutUs} from '@/screens/Settings/components/about-us';
 import {Terms} from '@/screens/Settings/components/terms';
 import {PrivacyPolicy} from '@/screens/Settings/components/privacy-policy';
+import {useTranslation} from 'react-i18next';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
     const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!savedTheme || savedTheme === 'system') {
@@ -55,7 +57,7 @@ export default function Navigation() {
                     name="Summary"
                     component={Summary}
                     options={{
-                        title: 'Summary',
+                        title: `${t('summary.title')}`,
                         headerBackTitleVisible: false,
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
@@ -65,7 +67,7 @@ export default function Navigation() {
                     name="Settings"
                     component={Settings}
                     options={{
-                        title: 'Settings',
+                        title: `${t('settings.title')}`,
                         headerBackTitleVisible: false,
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.text.primary,
@@ -75,7 +77,7 @@ export default function Navigation() {
                     name="About"
                     component={AboutUs}
                     options={{
-                        title: 'About Us',
+                        title: `${t('about_us.title')}`,
                         headerBackTitleVisible: false,
                         presentation: 'modal',
                         headerStyle: {backgroundColor: theme.colors.background},
@@ -86,7 +88,7 @@ export default function Navigation() {
                     name="Terms"
                     component={Terms}
                     options={{
-                        title: 'Terms & Conditions',
+                        title: `${t('terms.title')}`,
                         headerBackTitleVisible: false,
                         presentation: 'modal',
                         headerStyle: {backgroundColor: theme.colors.background},
@@ -97,7 +99,7 @@ export default function Navigation() {
                     name="Policy"
                     component={PrivacyPolicy}
                     options={{
-                        title: 'Privacy Policy',
+                        title: `${t('privacy.title')}`,
                         headerBackTitleVisible: false,
                         presentation: 'modal',
                         headerStyle: {backgroundColor: theme.colors.background},

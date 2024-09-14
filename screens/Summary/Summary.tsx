@@ -16,6 +16,7 @@ import {useAtom} from 'jotai';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
+import {useTranslation} from 'react-i18next';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
@@ -46,6 +47,7 @@ export function Summary() {
         const res = data.filter(item => item.value >= dataRange.minVal && item.value <= dataRange.maxVal);
         return data.length === 0 ? 0 : (res.length / data.length) * 100;
     }, [data, dataRange]);
+    const {t} = useTranslation();
 
     const {rangeMin, rangeHigh} = useMemo(() => {
         if (unit === 'mmol') {
@@ -73,16 +75,16 @@ export function Summary() {
             ListHeaderComponent={
                 <>
                     <Text>
-                        Highest: {convertData(highest.value)} on {new Date(highest.timestamp).toLocaleString()} (
-                        {highest.label})
+                        {t('summary.highest')}: {convertData(highest.value)} on{' '}
+                        {new Date(highest.timestamp).toLocaleString()} ({highest.label})
                     </Text>
                     <Text>
-                        Lowest: {convertData(lowest.value)} on {new Date(lowest.timestamp).toLocaleString()} (
-                        {lowest.label})
+                        {t('summary.lowest')}: {convertData(lowest.value)} on{' '}
+                        {new Date(lowest.timestamp).toLocaleString()} ({lowest.label})
                     </Text>
                     <Text>
-                        Readings have been within the range {convertData(dataRange.minVal)} -
-                        {convertData(dataRange.maxVal)} {unit} {percentageRange.toFixed(2)}% of the times.
+                        {t('summary.readings_in_range')} {convertData(dataRange.minVal)} -
+                        {convertData(dataRange.maxVal)} {unit} {percentageRange.toFixed(2)}% {t('summary.of_times')}.
                     </Text>
                     {data.length > 0 ? (
                         <View>
@@ -108,7 +110,7 @@ export function Summary() {
                         </View>
                     ) : (
                         <View style={styles.noDataWrap}>
-                            <Text variant={'h1'}>No data</Text>
+                            <Text variant={'h1'}>{t('summary.no_data')}</Text>
                         </View>
                     )}
                     <View style={styles.selectors}>
@@ -126,7 +128,7 @@ export function Summary() {
                         })}
                     </View>
                     <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
-                        Records
+                        {t('summary.records')}
                     </Text>
                     <DataRange ref={dataRangeRef} />
                 </>

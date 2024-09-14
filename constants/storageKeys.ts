@@ -3,4 +3,5 @@ export const StorageKeys = {
     KEY_DEFAULT_UNIT: 'default-unit',
     KEY_DATA_RANGE: 'data-range',
     KEY_GRAPH_PERIOD: 'graph-period',
+    KEY_LANGUAGE: 'language',
 };

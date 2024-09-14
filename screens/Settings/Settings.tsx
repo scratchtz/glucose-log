@@ -14,14 +14,19 @@ import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
 import {useAtomValue} from 'jotai/index';
 import {dataUnitAtom} from '@/storage/atoms/unit';
+import {useTranslation} from 'react-i18next';
+import {Language} from '@/screens/Settings/components/Language';
+import {languageAtom} from '@/storage/atoms/language';
 
 export function Settings({navigation}: any) {
     const {styles, theme} = useStyles(stylesheet);
     const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
+    const {t} = useTranslation();
 
     const rangeRef = useRef<BottomSheetModal>(null);
     const unitRef = useRef<BottomSheetModal>(null);
     const themeRef = useRef<BottomSheetModal>(null);
+    const langRef = useRef<BottomSheetModal>(null);
 
     const handleRange = useCallback(() => {
         rangeRef.current?.present();
@@ -35,8 +40,13 @@ export function Settings({navigation}: any) {
         themeRef.current?.present();
     }, []);
 
+    const handleLanguage = useCallback(() => {
+        langRef.current?.present();
+    }, []);
+
     const unit = useAtomValue(dataUnitAtom);
     const {maxVal, minVal} = useAtomValue(dataRangeAtom);
+    const language = useAtomValue(languageAtom);
 
     function clearAll() {
         const db = DB.getInstance();
@@ -70,46 +80,51 @@ export function Settings({navigation}: any) {
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={handleUnit} style={styles.setting}>
-                    <Text weight={'500'}>Default unit </Text>
+                    <Text weight={'500'}>{t('settings.default_unit')} </Text>
                     <Text weight={'500'}>{UnitLabels[unit]}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleRange} style={styles.setting}>
-                    <Text weight={'500'}>Range</Text>
+                    <Text weight={'500'}>{t('settings.range')}</Text>
                     <Text weight={'500'}>
                         {unit === 'mmol' ? (minVal / 18).toFixed(2) : minVal} -
                         {unit === 'mmol' ? (maxVal / 18).toFixed(2) : maxVal} {UnitLabels[unit]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleTheme} style={styles.setting}>
-                    <Text weight={'500'}>Theme</Text>
-                    <Text weight={'500'}>{savedTheme || UnistylesRuntime.themeName}</Text>
+                    <Text weight={'500'}>{t('settings.theme')}</Text>
+                    <Text weight={'500'}>{t(`settings.${savedTheme}`)}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleLanguage} style={styles.setting}>
+                    <Text weight={'500'}>{t('settings.language')}</Text>
+                    <Text weight={'500'}>{t(`settings.${language}`)}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onReset} style={[styles.setting, {borderBottomWidth: 0}]}>
-                    <Text>Reset data</Text>
+                    <Text>{t('settings.reset_data')}</Text>
                 </TouchableOpacity>
             </View>
             <View style={{marginTop: theme.spacing.m}}></View>
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={() => navigation.navigate('About')} style={styles.setting}>
-                    <Text>About us</Text>
+                    <Text>{t('settings.about_us')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Policy')} style={styles.setting}>
-                    <Text>Privacy policy</Text>
+                    <Text>{t('settings.privacy_policy')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Terms')} style={styles.setting}>
-                    <Text>Terms and conditions</Text>
+                    <Text>{t('settings.terms')}</Text>
                 </TouchableOpacity>
                 <View style={styles.setting}>
-                    <Text>App version</Text>
+                    <Text>{t('settings.app_version')}</Text>
                     <Text weight={'500'}>1.1</Text>
                 </View>
                 <TouchableOpacity onPress={openGithub} style={[styles.setting, {borderBottomWidth: 0}]}>
-                    <Text>Github</Text>
+                    <Text>{t('settings.github')}</Text>
                 </TouchableOpacity>
             </View>
             <DataRange ref={rangeRef} />
             <DataUnit ref={unitRef} />
             <AppTheme ref={themeRef} />
+            <Language ref={langRef} />
         </ScrollView>
     );
 }
