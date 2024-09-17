@@ -6,16 +6,12 @@ import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/common-styles';
 import {FullWindowOverlay} from 'react-native-screens';
-import {getDefaultStore, useAtomValue} from 'jotai/index';
-import {DefaultLanguage, languageAtom} from '@/storage/atoms/language';
+import {useTranslation} from 'react-i18next';
+import {useMMKVString} from 'react-native-mmkv';
+import {StorageKeys} from '@/constants/storageKeys';
+import {encryptedStorage} from '@/storage/mmkv';
 
 type Props = {};
-
-const LANGUAGE = [
-    {language: 'en', label: 'English'},
-    {language: 'sw', label: 'Swahili'},
-    {language: 'kr', label: 'Korean'},
-];
 
 export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
     const snapPoints = useMemo(() => ['30', '50%'], []);
@@ -23,14 +19,21 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
-    const language = useAtomValue(languageAtom);
     const {styles, theme} = useStyles(commonStyles);
     const onClose = () => ref.current?.close();
+    const {t} = useTranslation();
+    const [language, setLanguage] = useMMKVString(StorageKeys.KEY_LANGUAGE, encryptedStorage);
 
     function onConfirm(lang: string) {
-        getDefaultStore().set(languageAtom, lang as DefaultLanguage);
+        setLanguage(lang);
         ref.current?.close();
     }
+
+    const LANGUAGE = [
+        {language: 'en', label: `${t('settings.en')}`},
+        {language: 'sw', label: `${t('settings.sw')}`},
+        {language: 'kr', label: `${t('settings.kr')}`},
+    ];
 
     const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
@@ -43,7 +46,7 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
             backdropComponent={renderBackdrop}
             snapPoints={snapPoints}>
             <View style={styles.header}>
-                <Text variant="h3">Default Language</Text>
+                <Text variant="h3">{t('settings.language')}</Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />
                 </TouchableOpacity>

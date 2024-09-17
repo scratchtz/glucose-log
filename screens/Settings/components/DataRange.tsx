@@ -10,6 +10,7 @@ import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {useAtom} from 'jotai';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 import {UnitLabels} from '@/screens/Home/constants';
+import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
@@ -19,6 +20,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
+    const {t} = useTranslation();
 
     const [currentUnit] = useAtom(dataUnitAtom);
     const {maxVal, minVal} = useAtomValue(dataRangeAtom);
@@ -58,13 +60,16 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
             keyboardBehavior="extend"
             snapPoints={snapPoints}>
             <View style={styles.header}>
-                <Text variant="h3">Default Range in {UnitLabels[currentUnit]}</Text>
+                <Text variant="h3">
+                    {t('settings.default_range')} {''}
+                    {UnitLabels[currentUnit]}
+                </Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />
                 </TouchableOpacity>
             </View>
             <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
-                <Text color={'tertiary'}>Pick Min Range</Text>
+                <Text color={'tertiary'}>{t('settings.pick_min_range')}</Text>
                 <BottomSheetTextInput
                     style={styles.input}
                     clearButtonMode={'always'}
@@ -75,7 +80,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     keyboardType={'numeric'}
                 />
                 <View style={{marginTop: theme.spacing.m}}></View>
-                <Text color={'tertiary'}>Pick Max Range </Text>
+                <Text color={'tertiary'}>{t('settings.pick_max_range')}</Text>
                 <BottomSheetTextInput
                     style={styles.input}
                     clearButtonMode={'always'}
@@ -87,7 +92,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                 />
                 <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
                     <Text style={styles.confirmText} weight="500">
-                        Confirm
+                        {t('settings.confirm')}
                     </Text>
                 </TouchableOpacity>
             </BottomSheetScrollView>

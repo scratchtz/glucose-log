@@ -1,6 +1,6 @@
 import {Alert, Linking, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
-import {createStyleSheet, UnistylesRuntime, useStyles} from 'react-native-unistyles';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {dataRangeAtom} from '@/storage/atoms/range';
 import {useCallback, useRef} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
@@ -16,11 +16,11 @@ import {useAtomValue} from 'jotai/index';
 import {dataUnitAtom} from '@/storage/atoms/unit';
 import {useTranslation} from 'react-i18next';
 import {Language} from '@/screens/Settings/components/Language';
-import {languageAtom} from '@/storage/atoms/language';
 
 export function Settings({navigation}: any) {
     const {styles, theme} = useStyles(stylesheet);
     const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
+    const [language] = useMMKVString(StorageKeys.KEY_LANGUAGE, encryptedStorage);
     const {t} = useTranslation();
 
     const rangeRef = useRef<BottomSheetModal>(null);
@@ -46,7 +46,6 @@ export function Settings({navigation}: any) {
 
     const unit = useAtomValue(dataUnitAtom);
     const {maxVal, minVal} = useAtomValue(dataRangeAtom);
-    const language = useAtomValue(languageAtom);
 
     function clearAll() {
         const db = DB.getInstance();
@@ -63,17 +62,13 @@ export function Settings({navigation}: any) {
     };
 
     function onReset() {
-        Alert.alert(
-            'Reset All Data',
-            'Your data will be deleted from your device, this is irreversible, there’s no way to recover your data as it’s only stored on this device',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                {text: 'Delete', style: 'destructive', onPress: () => clearAll()},
-            ],
-        );
+        Alert.alert(`${t('settings.reset_data')}`, `${t('settings.reset_data_desc')}`, [
+            {
+                text: `${t('settings.cancel')}`,
+                style: 'cancel',
+            },
+            {text: `${t('settings.delete')}`, style: 'destructive', onPress: () => clearAll()},
+        ]);
     }
 
     return (

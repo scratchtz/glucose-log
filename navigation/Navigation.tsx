@@ -12,6 +12,7 @@ import {AboutUs} from '@/screens/Settings/components/about-us';
 import {Terms} from '@/screens/Settings/components/terms';
 import {PrivacyPolicy} from '@/screens/Settings/components/privacy-policy';
 import {useTranslation} from 'react-i18next';
+import i18n from 'i18next';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,15 @@ export default function Navigation() {
         UnistylesRuntime.setAdaptiveThemes(false);
         UnistylesRuntime.setTheme(savedTheme as 'light' | 'dark');
     }, [savedTheme]);
+
+    const [savedLanguage] = useMMKVString(StorageKeys.KEY_LANGUAGE, encryptedStorage);
+    useEffect(() => {
+        if (!savedLanguage) {
+            void i18n.changeLanguage('en');
+            return;
+        }
+        void i18n.changeLanguage(savedLanguage);
+    }, [savedLanguage]);
 
     const {theme} = useStyles();
     const navigationTheme = useMemo(

@@ -33,9 +33,8 @@ UnistylesRegistry.addBreakpoints(breakpoints)
         dark: darkTheme,
     })
     .addConfig({
-        initialTheme: 'light',
+        adaptiveThemes: true,
     });
-
 export default function App() {
     const [encryptedStorageLoaded] = useEncryptionStorage();
     const [fontsLoaded] = useFonts({

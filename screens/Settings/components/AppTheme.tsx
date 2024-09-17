@@ -9,14 +9,9 @@ import {FullWindowOverlay} from 'react-native-screens';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
+import {useTranslation} from 'react-i18next';
 
 type Props = {};
-
-const THEME = [
-    {theme: 'dark', label: 'Dark'},
-    {theme: 'light', label: 'Light'},
-    {theme: 'system', label: 'System'},
-];
 
 export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
     const snapPoints = useMemo(() => ['35', '50%'], []);
@@ -27,11 +22,18 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
     const [savedTheme, setTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
     const {styles, theme} = useStyles(commonStyles);
     const onClose = () => ref.current?.close();
+    const {t} = useTranslation();
 
     function onConfirm(theme: string) {
         setTheme(theme);
         ref.current?.close();
     }
+
+    const THEME = [
+        {theme: 'dark', label: `${t('settings.dark')}`},
+        {theme: 'light', label: `${t('settings.light')}`},
+        {theme: 'system', label: `${t('settings.system')}`},
+    ];
 
     const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
@@ -45,7 +47,7 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
             keyboardBehavior="extend"
             snapPoints={snapPoints}>
             <View style={styles.header}>
-                <Text variant="h3">Choose Theme</Text>
+                <Text variant="h3">{t('settings.choose_theme')}</Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />
                 </TouchableOpacity>
