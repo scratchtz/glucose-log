@@ -3,7 +3,12 @@
         "save": "Save",
         "summary": "Summary",
         "mg/dL" : "mg/dL",
-        "mmol/L": "mmol/L"
+        "mmol/L": "mmol/L",
+        "save_data" : "Save data",
+        "label": "Label",
+        "label_sample": "Label e.g Chicken(optional)",
+        "timestamp": "Timestamp",
+        "record": "Record"
     },
     "summary" : {
         "title": "Summary",

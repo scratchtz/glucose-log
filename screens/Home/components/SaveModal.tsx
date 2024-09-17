@@ -7,6 +7,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import DB from '@/storage/db-service';
 import {X} from 'lucide-react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
     mgValue: string;
@@ -24,6 +25,7 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
     const [isDateVisible, setIsDateVisible] = useState(false);
     const [date, setDate] = useState<Date | null>(new Date());
     const [label, setLabel] = useState('');
+    const {t} = useTranslation();
 
     const {styles, theme} = useStyles(stylesheet);
     const onClose = () => ref.current?.close();
@@ -59,16 +61,16 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
             keyboardBehavior="extend"
             snapPoints={snapPoints}>
             <View style={styles.header}>
-                <Text variant="h3">Save data</Text>
+                <Text variant="h3">{t('home.save_data')}</Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />
                 </TouchableOpacity>
             </View>
             <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
-                <Text style={styles.label}>Label e.g. Chicken (optional)</Text>
+                <Text style={styles.label}>{t('home.label_sample')}</Text>
                 <View style={styles.inputWrap}>
                     <BottomSheetTextInput
-                        placeholder={'Label'}
+                        placeholder={t('home.label')}
                         onChangeText={setLabel}
                         style={styles.input}
                         clearButtonMode={'always'}
@@ -76,7 +78,7 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
                     />
                 </View>
 
-                <Text style={styles.label}>Timestamp</Text>
+                <Text style={styles.label}>{t('home.timestamp')}</Text>
                 <TouchableOpacity style={styles.timestampButton} onPress={() => setIsDateVisible(true)}>
                     {date ? (
                         <View style={styles.dateRender}>
@@ -95,7 +97,7 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
                 />
                 <TouchableOpacity style={styles.confirmButton} onPress={onSave}>
                     <Text style={styles.confirmText} weight="500">
-                        Record
+                        {t('home.record')}
                     </Text>
                 </TouchableOpacity>
             </BottomSheetScrollView>

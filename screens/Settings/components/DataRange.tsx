@@ -75,7 +75,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     clearButtonMode={'always'}
                     placeholder={'Min Range'}
                     defaultValue={currentUnit === 'mmol' ? (minVal / 18).toFixed(2) : minVal.toString()}
-                    onChangeText={onChangeMinRange}
+                    onChangeText={setMinRange}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
                 />

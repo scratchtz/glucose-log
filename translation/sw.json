@@ -3,7 +3,13 @@
     "save": "Hifadhi",
     "summary": "Muhtasari",
     "mg/dL" : "mg/dL",
-    "mmol/L": "mmol/L"
+    "mmol/L": "mmol/L",
+    "save_data": "Hifadhi data",
+    "label": "Lebo",
+    "label_sample": "Lebo mfano: Kuku (hiari)",
+    "timestamp": "Muda",
+    "record": "Rekodi"
+
   },
   "summary" : {
     "title": "Muhtasari",

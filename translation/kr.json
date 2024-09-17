@@ -3,7 +3,13 @@
     "save": "저장",
     "summary": "요약",
     "mg/dL": "mg/dL",
-    "mmol/L": "mmol/L"
+    "mmol/L": "mmol/L",
+    "save_data": "데이터 저장",
+    "label": "라벨",
+    "label_sample": "라벨 예: 치킨(선택 사항)",
+    "timestamp": "타임스탬프",
+    "record": "기록"
+
   },
   "summary": {
     "title": "요약",
