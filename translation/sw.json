@@ -8,7 +8,11 @@
     "label": "Lebo",
     "label_sample": "Lebo mfano: Kuku (hiari)",
     "timestamp": "Muda",
-    "record": "Rekodi"
+    "record": "Rekodi",
+    "save_measurements": "Hifadhi kipimo cha sukari",
+    "summary_chart": "Tazama chati ya muhtasari",
+    "delete_last_digit": "Futa tarakimu ya mwisho uliyoingiza",
+    "select_label": "Chagua {{unitLabel}}"
 
   },
   "summary" : {

@@ -3,6 +3,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {Delete} from 'lucide-react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
     onNumberPress: (n: string) => void;
@@ -13,6 +14,7 @@ const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'];
 
 export const Keyboard = memo(({onNumberPress, onBackspace}: Props) => {
     const {styles, theme} = useStyles(stylesheet);
+    const {t} = useTranslation();
 
     return (
         <View style={styles.container}>
@@ -30,7 +32,7 @@ export const Keyboard = memo(({onNumberPress, onBackspace}: Props) => {
             <TouchableOpacity
                 onPress={onBackspace}
                 style={styles.wrapper}
-                accessibilityLabel="Delete last entered digit">
+                accessibilityLabel={t('home.delete_last_digit')}>
                 <Delete color={theme.colors.text.primary} size={24} />
             </TouchableOpacity>
         </View>

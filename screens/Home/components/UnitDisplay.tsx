@@ -4,6 +4,7 @@ import React, {memo} from 'react';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/Text/Text';
 import {DefaultDataUnit} from '@/storage/atoms/unit';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
     unit: DefaultDataUnit;
@@ -15,12 +16,13 @@ type Props = {
 export const UnitDisplay = memo(({unit, value, isSelected, onPress}: Props) => {
     const {styles} = useStyles(stylesheet);
     const unitLabel = unit === 'mmol' ? 'mmol/L' : 'mg/dL';
+    const {t} = useTranslation();
 
     return (
         <TouchableOpacity
             onPress={onPress}
             style={[styles.wrapper, isSelected && styles.wrapperSelected]}
-            accessibilityLabel={`Select ${unitLabel} unit`}>
+            accessibilityLabel={t('home.select_label', {unitLabel: unitLabel})}>
             <Text variant="h3">{unitLabel}</Text>
             <Text style={styles.input}>{value}</Text>
         </TouchableOpacity>

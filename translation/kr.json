@@ -8,8 +8,11 @@
     "label": "라벨",
     "label_sample": "라벨 예: 치킨(선택 사항)",
     "timestamp": "타임스탬프",
-    "record": "기록"
-
+    "record": "기록",
+    "save_measurements": "혈당 측정을 저장하세요",
+    "summary_chart": "요약 차트 보기",
+    "delete_last_digit": "마지막으로 입력한 숫자 삭제",
+    "select_label": "{{unitLabel}} 단위 선택"
   },
   "summary": {
     "title": "요약",

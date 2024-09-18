@@ -42,7 +42,7 @@ export function Home({navigation}: any) {
                 <TouchableOpacity
                     onPress={onSave}
                     style={styles.actionWrapper}
-                    accessibilityLabel={'Save glucose measurement'}>
+                    accessibilityLabel={t('home.save_measurements')}>
                     <View style={styles.actionIconWrapper}>
                         <Save color={styles.actionIcon.color} size={styles.actionIcon.fontSize} />
                     </View>
@@ -51,7 +51,7 @@ export function Home({navigation}: any) {
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Summary')}
                     style={styles.actionWrapper}
-                    accessibilityLabel="View summary chart">
+                    accessibilityLabel={t('home.summary_chart')}>
                     <View style={styles.actionIconWrapper}>
                         <ChartColumn color={styles.actionIcon.color} size={styles.actionIcon.fontSize} />
                     </View>

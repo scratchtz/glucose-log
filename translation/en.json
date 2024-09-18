@@ -8,7 +8,11 @@
         "label": "Label",
         "label_sample": "Label e.g Chicken(optional)",
         "timestamp": "Timestamp",
-        "record": "Record"
+        "record": "Record",
+        "save_measurements": "Save glucose measurement",
+        "summary_chart": "View summary chart",
+        "delete_last_digit": "Delete last entered digit",
+        "select_label" : "Select {{unitLabel}} unit"
     },
     "summary" : {
         "title": "Summary",
