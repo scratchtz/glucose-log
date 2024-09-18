@@ -83,8 +83,12 @@ export function Summary() {
                         {new Date(lowest.timestamp).toLocaleString()} ({lowest.label})
                     </Text>
                     <Text>
-                        {t('summary.readings_in_range')} {convertData(dataRange.minVal)} -
-                        {convertData(dataRange.maxVal)} {unit} {percentageRange.toFixed(2)}% {t('summary.of_times')}.
+                        {t('summary.readings_in_range', {
+                            min: rangeMin,
+                            max: rangeHigh,
+                            unit: unit,
+                            percent: percentageRange.toFixed(2),
+                        })}
                     </Text>
                     {data.length > 0 ? (
                         <View>

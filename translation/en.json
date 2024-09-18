@@ -14,10 +14,9 @@
         "title": "Summary",
         "highest" : "Highest",
         "lowest" : "Lowest",
-        "readings_in_range": "Readings have been within the range",
+        "readings_in_range": "Readings have been within the range {{min}} - {{max}} {{unit}} {{percent}}% of the times",
         "mmol": "mmol",
         "mg" : "mg",
-       "of_times" : "of the times",
         "no_data": "No data",
         "records" : "Records"
     },

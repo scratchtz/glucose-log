@@ -15,10 +15,9 @@
     "title": "Muhtasari",
     "highest" : "Juu Zaidi",
     "lowest" : "Chini Zaidi",
-    "readings_in_range": "Vipimo vimekuwa ndani ya kiwango",
+    "readings_in_range": "Vipimo vimekuwa ndani ya kiwango cha {{min}} - {{max}} {{unit}} kwa {{percent}}% ya wakati.",
     "mmol": "mmol",
     "mg" : "mg",
-    "of_times" : "ya nyakati",
     "no_data": "Hakuna data",
     "records" : "Rekodi"
   },

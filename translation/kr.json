@@ -15,10 +15,9 @@
     "title": "요약",
     "highest": "최고",
     "lowest": "최저",
-    "readings_in_range": "측정값이 범위 내에 있습니다",
+    "readings_in_range": "측정값이 {{min}} - {{max}} {{unit}} 범위 내에서 {{percent}}%의 시간 동안 있었습니다.",
     "mmol": "mmol",
     "mg": "mg",
-    "of_times": "의 시간",
     "no_data": "데이터 없음",
     "records": "기록"
   },
