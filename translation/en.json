@@ -2,8 +2,6 @@
     "home": {
         "save": "Save",
         "summary": "Summary",
-        "mg/dL" : "mg/dL",
-        "mmol/L": "mmol/L",
         "save_data" : "Save data",
         "label": "Label",
         "label_sample": "Label e.g Chicken(optional)",
@@ -14,15 +12,36 @@
         "delete_last_digit": "Delete last entered digit",
         "select_label" : "Select {{unitLabel}} unit"
     },
+    "constants": {
+        "theme": {
+            "dark": "Dark",
+            "light": "Light",
+            "system": "Automatic"
+        },
+        "language": {
+            "en": "English",
+            "sw": "Swahili",
+            "ko": "한국어"
+        },
+        "unit": {
+            "mmol": "mmol/L",
+            "mg": "mg/dL"
+        }
+    },
     "summary" : {
         "title": "Summary",
-        "highest" : "Highest",
-        "lowest" : "Lowest",
+        "highest" : "Highest reading was {{value}} {{unit}} on {{date}} ({{label}})",
+        "lowest" : "Lowest reading was {{value}} {{unit}} on {{date}} ({{label}})",
         "readings_in_range": "Readings have been within the range {{min}} - {{max}} {{unit}} {{percent}}% of the times",
-        "mmol": "mmol",
-        "mg" : "mg",
-        "no_data": "No data",
-        "records" : "Records"
+        "no_data": "No data, change the time period to view data",
+        "records" : "Records",
+        "period": {
+            "1": "24H",
+            "7": "7D",
+            "30": "1M",
+            "90": "3M",
+            "365": "1Y"
+        }
     },
     "settings" : {
         "title": "Settings",
@@ -34,15 +53,12 @@
         "confirm": "Confirm",
         "theme" : "Theme",
         "choose_theme": "Choose Theme",
-        "dark" : "Dark",
-        "light" : "Light",
-        "system" : "System",
         "language": "Language",
         "en": "English",
         "sw" : "Swahili",
-        "kr" : "Korean",
+        "ko" : "Korean",
         "reset_data": "Reset data",
-        "reset_data_desc" : "Your data will be deleted from your device, this is irreversible, there’s no way to recover your data as it’s only stored on this device",
+        "reset_data_desc" : "Your data will be deleted from your device. There's no way to recover since it's only stored on this device.",
         "cancel": "Cancel",
         "delete" : "Delete",
         "about_us" : "About Us",
@@ -50,39 +66,5 @@
         "terms": "Terms & Conditions",
         "app_version": "App Version",
         "github": "Github"
-     },
-
-    "about_us": {
-        "title": "About Us",
-        "info": "We are a team of passionate individuals dedicated to helping people manage their health with ease and privacy.Our app, Glucose Log, is designed to provide a simple and secure way to track glucose levels. We believe in empowering users by giving them full control over their data, stored entirely on their devices with no third-party servers involved. Our mission is to provide a reliable, user-friendly tool that makes managing glucose levels accessible to everyone."
-    },
-    "privacy" : {
-        "title": "Privacy Policy",
-        "description": "At Glucose Log, your privacy is important to us. We are committed to safeguarding your personal data and ensuring that your health information remains private and secure.",
-        "data_collection" : "Data Collection",
-        "data_collection_info": " Glucose Log does not collect or store any of your personal data on external servers. All information related to your glucose levels is stored locally on your device.",
-        "use_of_data": "Use of Data",
-        "use_of_data_info": "The data entered into Glucose Log is used solely for tracking your glucose levels and is never shared with third parties unless you choose to export and share the data manually.",
-        "third_party" : "Third-Party Services",
-        "third_party_info": "Glucose Log does not use any third-party services for data storage, analytics, or advertising. Your data stays with you, on your device.",
-        "security": "Security",
-        "security_info" : "We take reasonable measures to ensure that your data remains secure on your device, but we recommend using a password or biometric lock on your phone for added security",
-        "closing": "By using Glucose Log, you consent to this privacy policy. We reserve the right to update this policy, and any changes will be posted within the app."
-
-    },
-    "terms" : {
-        "title": "Terms & Conditions",
-        "description": "Please read these Terms and Conditions carefully before using the Glucose Log app.",
-        "use_of_app" : "Use of the App",
-        "use_of_app_info": "By downloading and using Glucose Log, you agree to use the app in accordance with these Terms.The app is intended for personal use only and may not be used for any commercial purposes.",
-        "data_responsibility": "Data Responsibility",
-        "data_responsibility_info": "All data entered into the app is stored on your device. Glucose Log is not responsible for any loss of data due to device malfunctions, deletion of the app, or other circumstances. We recommend regularly backing up your device",
-        "medical_advice" : "No Medical Advice",
-        "medical_advice_info": "The app is designed to help you track glucose levels but does not provide any medical advice. Always consult with a healthcare professional for advice related to your health.",
-        "modifications": "Modifications",
-        "modifications_info" : "We reserve the right to modify or discontinue the app at any time without notice. Any updates to the Terms will be made available within the app.",
-        "closing": "By using Glucose Log, you agree to these Terms. If you do not agree, please discontinue use of the app."
-
-    }
-
+     }
 }

@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import en from '@/translation/en.json';
-import kr from '@/translation/kr.json';
+import kr from '@/translation/ko.json';
 import sw from '@/translation/sw.json';
 
 // the translations
@@ -12,7 +12,7 @@ const resources = {
     sw: {
         translation: sw,
     },
-    kr: {
+    ko: {
         translation: kr,
     },
 };

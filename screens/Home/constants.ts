@@ -1,11 +1,6 @@
 import {useCallback, useState} from 'react';
 import {DefaultDataUnit} from '@/storage/atoms/unit';
 
-export const UnitLabels: Record<DefaultDataUnit, string> = {
-    mmol: 'mmol/L',
-    mg: 'mg/dL',
-} as const;
-
 export const CONVERSION_FACTOR = 18;
 
 export const useGlucoseInput = (initialUnit: DefaultDataUnit) => {

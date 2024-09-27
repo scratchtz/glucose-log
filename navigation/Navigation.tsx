@@ -8,9 +8,9 @@ import {Settings} from '@/screens/Settings/Settings';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
-import {AboutUs} from '@/screens/Settings/components/about-us';
-import {Terms} from '@/screens/Settings/components/terms';
-import {PrivacyPolicy} from '@/screens/Settings/components/privacy-policy';
+import {AboutUs} from '@/screens/Settings/components/AboutUs';
+import {Terms} from '@/screens/Settings/components/Terms';
+import {PrivacyPolicy} from '@/screens/Settings/components/PrivacyPolicy';
 import {useTranslation} from 'react-i18next';
 import i18n from 'i18next';
 

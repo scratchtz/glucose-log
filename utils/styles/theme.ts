@@ -21,6 +21,7 @@ export const lightTheme = {
         },
         background: palette.gray100,
         border: palette.gray300,
+        secondary: palette.teal500,
     },
     card: {
         background: palette.white,
@@ -78,6 +79,7 @@ export const darkTheme: AppTheme = {
         },
         background: '#202948',
         border: '#3C466E',
+        secondary: palette.teal500,
     },
     card: {
         background: '#2C365E',

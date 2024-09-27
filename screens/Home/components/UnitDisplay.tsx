@@ -1,4 +1,3 @@
-// Components
 import {TouchableOpacity} from 'react-native';
 import React, {memo} from 'react';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
@@ -15,9 +14,9 @@ type Props = {
 
 export const UnitDisplay = memo(({unit, value, isSelected, onPress}: Props) => {
     const {styles} = useStyles(stylesheet);
-    const unitLabel = unit === 'mmol' ? 'mmol/L' : 'mg/dL';
     const {t} = useTranslation();
 
+    const unitLabel = t('constants.unit.' + unit);
     return (
         <TouchableOpacity
             onPress={onPress}

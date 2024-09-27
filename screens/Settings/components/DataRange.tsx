@@ -9,7 +9,6 @@ import {FullWindowOverlay} from 'react-native-screens';
 import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {useAtom} from 'jotai';
 import {dataUnitAtom} from '@/storage/atoms/unit';
-import {UnitLabels} from '@/screens/Home/constants';
 import {useTranslation} from 'react-i18next';
 
 type Props = {};
@@ -62,7 +61,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
             <View style={styles.header}>
                 <Text variant="h3">
                     {t('settings.default_range')} {''}
-                    {UnitLabels[currentUnit]}
+                    {t(`constants.unit.${currentUnit}`)}
                 </Text>
                 <TouchableOpacity onPress={onClose} style={styles.closeWrap}>
                     <X size={styles.close.fontSize} color={styles.close.color} />

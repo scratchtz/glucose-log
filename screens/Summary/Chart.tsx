@@ -18,14 +18,6 @@ export const GRAPH_PERIOD = {
 export const GRAPH_PERIODS = Object.values(GRAPH_PERIOD);
 export type GRAPH_PERIOD = (typeof GRAPH_PERIOD)[keyof typeof GRAPH_PERIOD];
 
-export const GRAPH_PERIOD_LABELS: Record<GRAPH_PERIOD, string> = {
-    '1': '24H',
-    '7': '7D',
-    '30': '1M',
-    '90': '3M',
-    '365': '1Y',
-};
-
 type Props = {
     highest: DataPoint;
     lowest: DataPoint;
@@ -71,8 +63,8 @@ export const Chart = ({data, highest, lowest}: Props) => {
                         <LineChart.HorizontalLine at={{value: maxVal}} color={theme.colors.text.tertiary} />
                         <LineChart.HorizontalLine at={{value: minVal}} color={theme.colors.text.tertiary} />
                         <LineChart.Gradient color={theme.colors.primary} />
-                        <LineChart.Dot color={theme.colors.primary} at={lowest.index} hasPulse />
-                        <LineChart.Dot color={theme.colors.primary} at={highest.index} hasPulse />
+                        <LineChart.Dot color={theme.colors.secondary} at={lowest.index} hasPulse />
+                        <LineChart.Dot color={theme.colors.secondary} at={highest.index} hasPulse />
                     </LineChart.Path>
                     <LineChart.CursorCrosshair
                         color={theme.colors.primary}

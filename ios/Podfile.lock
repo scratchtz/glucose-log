@@ -1355,6 +1355,8 @@ PODS:
     - React-utils (= 0.74.5)
   - RNDateTimePicker (8.2.0):
     - React-Core
+  - RNDeviceInfo (13.0.0):
+    - React-Core
   - RNFlashList (1.7.1):
     - DoubleConversion
     - glog
@@ -1567,6 +1569,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1733,6 +1736,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFlashList:
     :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
@@ -1825,6 +1830,7 @@ SPEC CHECKSUMS:
   React-utils: f242eb7e7889419d979ca0e1c02ccc0ea6e43b29
   ReactCommon: f7da14a8827b72704169a48c929bcde802698361
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
+  RNDeviceInfo: 55264dd7cc939dad6e9c231a7621311f5277f1dc
   RNFlashList: e9c5b8fe1b84f9c198cb550eb4cc0c45569fbf42
   RNGestureHandler: 67e78f16895947f7e57ab91e75e914d3e9ef7239
   RNReanimated: 9ed0e560d784729b12ff79920677a1117d4b13ec

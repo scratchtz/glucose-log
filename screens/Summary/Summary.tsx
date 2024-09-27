@@ -3,13 +3,12 @@ import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useCallback, useMemo, useRef} from 'react';
 import DB, {ILog} from '@/storage/db-service';
-import {Chart, DataPoint, defaultDataPoint, GRAPH_PERIOD, GRAPH_PERIOD_LABELS, GRAPH_PERIODS} from './Chart';
+import {Chart, DataPoint, defaultDataPoint, GRAPH_PERIOD, GRAPH_PERIODS} from './Chart';
 import {Gauge, Ruler} from 'lucide-react-native';
-import {UnitLabels} from '../Home/constants';
 import {RecordItem} from './RecordItem';
 import {FlashList} from '@shopify/flash-list';
 import {dataRangeAtom} from '@/storage/atoms/range';
-import {dataUnitAtom} from '@/storage/atoms/unit';
+import {dataUnitAtom, DefaultDataUnit} from '@/storage/atoms/unit';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {DataRange} from '@/screens/Settings/components/DataRange';
 import {useAtom} from 'jotai';
@@ -20,7 +19,7 @@ import {useTranslation} from 'react-i18next';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
-    const [period = GRAPH_PERIOD.DAY, setPeriod] = useMMKVString(StorageKeys.KEY_GRAPH_PERIOD, encryptedStorage);
+    const [period = GRAPH_PERIOD.MONTH, setPeriod] = useMMKVString(StorageKeys.KEY_GRAPH_PERIOD, encryptedStorage);
 
     const [dataRange] = useAtom(dataRangeAtom);
     const [unit, setUnit] = useAtom(dataUnitAtom);
@@ -74,24 +73,32 @@ export function Summary() {
             renderItem={({item}) => <RecordItem {...item} />}
             ListHeaderComponent={
                 <>
-                    <Text>
-                        {t('summary.highest')}: {convertData(highest.value)} on{' '}
-                        {new Date(highest.timestamp).toLocaleString()} ({highest.label})
-                    </Text>
-                    <Text>
-                        {t('summary.lowest')}: {convertData(lowest.value)} on{' '}
-                        {new Date(lowest.timestamp).toLocaleString()} ({lowest.label})
-                    </Text>
-                    <Text>
-                        {t('summary.readings_in_range', {
-                            min: rangeMin,
-                            max: rangeHigh,
-                            unit: unit,
-                            percent: percentageRange.toFixed(2),
-                        })}
-                    </Text>
                     {data.length > 0 ? (
                         <View>
+                            <Text style={styles.info}>
+                                {t('summary.highest', {
+                                    value: convertData(highest.value, unit),
+                                    unit: unit,
+                                    date: new Date(highest.timestamp).toLocaleString(),
+                                    label: highest.label,
+                                })}
+                            </Text>
+                            <Text style={styles.info}>
+                                {t('summary.lowest', {
+                                    value: convertData(lowest.value, unit),
+                                    unit: unit,
+                                    date: new Date(lowest.timestamp).toLocaleString(),
+                                    label: lowest.label,
+                                })}
+                            </Text>
+                            <Text style={styles.info}>
+                                {t('summary.readings_in_range', {
+                                    min: rangeMin,
+                                    max: rangeHigh,
+                                    unit: unit,
+                                    percent: percentageRange.toFixed(2),
+                                })}
+                            </Text>
                             <View style={styles.graphActions}>
                                 <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
                                     <Ruler size={18} color={theme.colors.text.primary} />
@@ -101,7 +108,7 @@ export function Summary() {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
                                     <Gauge size={18} color={theme.colors.text.primary} />
-                                    <Text>{UnitLabels[unit]}</Text>
+                                    <Text>{t('constants.unit.' + unit)}</Text>
                                 </TouchableOpacity>
                             </View>
                             <Chart
@@ -114,7 +121,7 @@ export function Summary() {
                         </View>
                     ) : (
                         <View style={styles.noDataWrap}>
-                            <Text variant={'h1'}>{t('summary.no_data')}</Text>
+                            <Text>{t('summary.no_data')}</Text>
                         </View>
                     )}
                     <View style={styles.selectors}>
@@ -125,15 +132,17 @@ export function Summary() {
                                     style={[styles.selector, period === p && styles.selectorSelected]}
                                     onPress={() => setPeriod(p)}>
                                     <Text style={styles.period} weight="500">
-                                        {GRAPH_PERIOD_LABELS[p]}
+                                        {t('summary.period.' + p)}
                                     </Text>
                                 </TouchableOpacity>
                             );
                         })}
                     </View>
-                    <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
-                        {t('summary.records')}
-                    </Text>
+                    {data.length > 0 && (
+                        <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
+                            {t('summary.records')}
+                        </Text>
+                    )}
                     <DataRange ref={dataRangeRef} />
                 </>
             }
@@ -165,8 +174,7 @@ const reduceDataPoints = (data: ILog[]) => {
     );
 };
 
-const convertData = (data: number): string => {
-    const [unit] = useAtom(dataUnitAtom);
+const convertData = (data: number, unit: DefaultDataUnit): string => {
     if (unit === 'mmol') {
         return (data / 18).toFixed(2);
     }
@@ -194,7 +202,7 @@ const stylesheet = createStyleSheet(theme => ({
         gap: theme.spacing.xs,
     },
     selectorSelected: {
-        borderColor: theme.colors.primary,
+        borderColor: theme.colors.secondary,
         borderWidth: 2,
     },
     period: {
@@ -215,7 +223,14 @@ const stylesheet = createStyleSheet(theme => ({
         alignItems: 'center',
     },
     noDataWrap: {
-        alignItems: 'center',
         paddingVertical: theme.spacing.xl,
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 200,
+    },
+    info: {
+        fontFamily: 'Font-400',
+        color: theme.colors.text.primary,
+        marginBottom: theme.spacing.m,
     },
 }));

@@ -4,7 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
-import {commonStyles} from '@/screens/Settings/components/common-styles';
+import {commonStyles} from '@/screens/Settings/components/commonStyles';
 import {FullWindowOverlay} from 'react-native-screens';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';

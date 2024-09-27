@@ -5,7 +5,7 @@ import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {dataUnitAtom, DefaultDataUnit} from '@/storage/atoms/unit';
-import {commonStyles} from '@/screens/Settings/components/common-styles';
+import {commonStyles} from '@/screens/Settings/components/commonStyles';
 import {FullWindowOverlay} from 'react-native-screens';
 import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {useTranslation} from 'react-i18next';

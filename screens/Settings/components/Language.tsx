@@ -4,7 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
-import {commonStyles} from '@/screens/Settings/components/common-styles';
+import {commonStyles} from '@/screens/Settings/components/commonStyles';
 import {FullWindowOverlay} from 'react-native-screens';
 import {useTranslation} from 'react-i18next';
 import {useMMKVString} from 'react-native-mmkv';
@@ -14,7 +14,7 @@ import {encryptedStorage} from '@/storage/mmkv';
 type Props = {};
 
 export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
-    const snapPoints = useMemo(() => ['30', '50%'], []);
+    const snapPoints = useMemo(() => [340, '50%', '80%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
@@ -32,7 +32,7 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
     const LANGUAGE = [
         {language: 'en', label: `${t('settings.en')}`},
         {language: 'sw', label: `${t('settings.sw')}`},
-        {language: 'kr', label: `${t('settings.kr')}`},
+        {language: 'ko', label: `${t('settings.ko')}`},
     ];
 
     const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
