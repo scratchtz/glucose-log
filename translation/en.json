@@ -4,7 +4,7 @@
         "summary": "Summary",
         "save_data" : "Save data",
         "label": "Label",
-        "label_sample": "Label e.g Chicken(optional)",
+        "label_sample": "Label e.g chicken(optional)",
         "timestamp": "Timestamp",
         "record": "Record",
         "save_measurements": "Save glucose measurement",
@@ -63,9 +63,7 @@
         "delete" : "Delete",
         "about_us" : "About Us",
         "privacy_policy": "Privacy Policy",
-        "terms": "Terms & Conditions",
-        "app_version": "App Version",
-        "github": "Github"
+        "terms": "Terms & Conditions"
      },
     "about_us": {
         "title": "About Us"

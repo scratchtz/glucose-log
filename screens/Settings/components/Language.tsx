@@ -13,6 +13,8 @@ import {encryptedStorage} from '@/storage/mmkv';
 
 type Props = {};
 
+const LANGUAGES = ['en', 'sw', 'ko'];
+
 export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
     const snapPoints = useMemo(() => [340, '50%', '80%'], []);
     const renderBackdrop = useCallback(
@@ -28,12 +30,6 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         setLanguage(lang);
         ref.current?.close();
     }
-
-    const LANGUAGE = [
-        {language: 'en', label: `${t('settings.en')}`},
-        {language: 'sw', label: `${t('settings.sw')}`},
-        {language: 'ko', label: `${t('settings.ko')}`},
-    ];
 
     const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
@@ -52,20 +48,9 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
                 </TouchableOpacity>
             </View>
             <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
-                {LANGUAGE.map(l => (
-                    <TouchableOpacity
-                        key={l.language}
-                        onPress={() => onConfirm(l.language)}
-                        style={[
-                            styles.unit,
-                            language === l.language && {
-                                backgroundColor: theme.colors.primary,
-                            },
-                            {marginBottom: 14},
-                        ]}>
-                        <Text variant={'h3'} style={language === l.language && {color: 'white'}}>
-                            {l.label}
-                        </Text>
+                {LANGUAGES.map(l => (
+                    <TouchableOpacity key={l} onPress={() => onConfirm(l)} style={styles.unit}>
+                        <Text>{t(`constants.language.${l}`)}</Text>
                     </TouchableOpacity>
                 ))}
             </BottomSheetScrollView>

@@ -95,16 +95,16 @@ export function Settings({navigation}: any) {
                     <Text weight={'500'}>{t(`constants.language.${language || 'en'}`)}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onReset} style={[styles.setting, {borderBottomWidth: 0}]}>
-                    <Text>{t('settings.reset_data')}</Text>
+                    <Text weight={'500'}>{t('settings.reset_data')}</Text>
                 </TouchableOpacity>
             </View>
             <View style={{marginTop: theme.spacing.m}}></View>
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={() => navigation.navigate('About')} style={styles.setting}>
-                    <Text>{t('settings.about_us')}</Text>
+                    <Text weight={'500'}>{t('settings.about_us')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Policy')} style={styles.setting}>
-                    <Text>{t('settings.privacy_policy')}</Text>
+                    <Text weight={'500'}>{t('settings.privacy_policy')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Terms')}
@@ -114,13 +114,13 @@ export function Settings({navigation}: any) {
                             borderBottomWidth: 0,
                         },
                     ]}>
-                    <Text>{t('settings.terms')}</Text>
+                    <Text weight={'500'}>{t('settings.terms')}</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.footer}>
                 <View>
-                    <Text style={styles.appVersion}>
+                    <Text style={styles.appVersion} weight={'500'}>
                         v{DeviceInfo.getVersion()} build {DeviceInfo.getBuildNumber()}
                     </Text>
                 </View>
