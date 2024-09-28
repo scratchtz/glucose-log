@@ -12,3 +12,7 @@
 -keep class com.facebook.react.turbomodule.** { *; }
 
 # Add any project specific keep options here:
+
+# @generated begin expo-build-properties - expo prebuild (DO NOT MODIFY)
+-keep class com.shopify.reactnative.skia.** { *; } -keep class com.swmansion.reanimated.** { *; } -keep class com.facebook.react.turbomodule.** { *; } -keep public class com.horcrux.svg.** {*;} 
+# @generated end expo-build-properties

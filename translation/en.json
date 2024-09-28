@@ -66,5 +66,14 @@
         "terms": "Terms & Conditions",
         "app_version": "App Version",
         "github": "Github"
-     }
+     },
+    "about_us": {
+        "title": "About Us"
+    },
+    "privacy" : {
+        "title": "Privacy Policy"
+    },
+    "terms" : {
+        "title": "Terms & Conditions"
+    }
 }
