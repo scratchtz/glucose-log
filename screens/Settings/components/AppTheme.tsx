@@ -13,8 +13,9 @@ import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
+const THEMES = ['light', 'dark', 'system'];
 export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
-    const snapPoints = useMemo(() => ['35', '50%'], []);
+    const snapPoints = useMemo(() => [300, '50%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
@@ -28,12 +29,6 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         setTheme(theme);
         ref.current?.close();
     }
-
-    const THEME = [
-        {theme: 'dark', label: `${t('settings.dark')}`},
-        {theme: 'light', label: `${t('settings.light')}`},
-        {theme: 'system', label: `${t('settings.system')}`},
-    ];
 
     const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
@@ -53,20 +48,9 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
                 </TouchableOpacity>
             </View>
             <BottomSheetScrollView contentContainerStyle={styles.scrollView}>
-                {THEME.map(t => (
-                    <TouchableOpacity
-                        key={t.theme}
-                        onPress={() => onConfirm(t.theme)}
-                        style={[
-                            styles.unit,
-                            savedTheme === t.theme && {
-                                backgroundColor: theme.colors.primary,
-                            },
-                            {marginBottom: 14},
-                        ]}>
-                        <Text variant={'h3'} style={savedTheme === t.theme && {color: 'white'}}>
-                            {t.label}
-                        </Text>
+                {THEMES.map(theme => (
+                    <TouchableOpacity key={theme} onPress={() => onConfirm(theme)} style={styles.unit}>
+                        <Text>{t('constants.theme.' + theme)}</Text>
                     </TouchableOpacity>
                 ))}
             </BottomSheetScrollView>

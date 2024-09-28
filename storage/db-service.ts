@@ -56,6 +56,11 @@ class DB {
         this.db.execute(query, [data.value, data.timestamp, data.label]);
     }
 
+    public delete(id: number): void {
+        const query = `DELETE FROM log WHERE id = ?`;
+        this.db.execute(query, [id]);
+    }
+
     public getAll(timeStamp: number): ILog[] | undefined {
         const {rows} = this.db.execute('SELECT * FROM log WHERE timestamp >= ?', [timeStamp]);
         return rows?._array;

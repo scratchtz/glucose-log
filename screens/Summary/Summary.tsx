@@ -16,6 +16,8 @@ import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
 import {useTranslation} from 'react-i18next';
+import {deleteCounterAtom} from '@/screens/Summary/RecordItemModal';
+import {useAtomValue} from 'jotai/index';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
@@ -29,13 +31,15 @@ export function Summary() {
         dataRangeRef.current?.present();
     }, []);
 
+    const deleteCounter = useAtomValue(deleteCounterAtom);
+
     const data = useMemo(() => {
         const timestamp = new Date(Date.now() - parseInt(period) * 24 * 60 * 60 * 1000).getTime();
         const db = DB.getInstance();
         const res = db.getAll(timestamp);
         if (res) return res;
         return [];
-    }, [unit, period]);
+    }, [unit, period, deleteCounter]);
 
     const listData = useMemo(() => {
         return data.slice().reverse();

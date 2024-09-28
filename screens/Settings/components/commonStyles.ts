@@ -30,9 +30,10 @@ export const commonStyles = createStyleSheet(theme => ({
         backgroundColor: theme.colors.text.tertiary,
     },
     unit: {
+        marginBottom: theme.spacing.m,
+        backgroundColor: theme.card.background,
         borderRadius: theme.rounded.l,
         padding: theme.spacing.l,
         alignItems: 'center',
-        backgroundColor: theme.card.background,
     },
 }));
