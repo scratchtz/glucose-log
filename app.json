@@ -14,12 +14,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "scratch.glucoselog"
+      "bundleIdentifier": "co.tz.scratch.glucoselog"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#18C1FC"
       },
       "package": "scratch.glucoselog"
     },

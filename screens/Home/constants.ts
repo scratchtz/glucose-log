@@ -7,6 +7,10 @@ export const useGlucoseInput = (initialUnit: DefaultDataUnit) => {
     const [values, setValues] = useState({mmol: '0', mg: '0'});
     const [currentUnit, setCurrentUnit] = useState<DefaultDataUnit>(initialUnit);
 
+    const resetState = useCallback(() => {
+        setValues({mmol: '0', mg: '0'});
+    }, []);
+
     const convertValue = useCallback((value: string, fromUnit: DefaultDataUnit): string => {
         if (value === '0' || value === '') return '0';
         if (value === '.') return value;
@@ -61,5 +65,6 @@ export const useGlucoseInput = (initialUnit: DefaultDataUnit) => {
         setCurrentUnit,
         onNumberPress,
         onBackspace,
+        resetState,
     };
 };

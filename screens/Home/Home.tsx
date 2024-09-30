@@ -15,7 +15,7 @@ import {useTranslation} from 'react-i18next';
 export function Home({navigation}: any) {
     const {theme, styles} = useStyles(stylesheet);
     const initialUnit = useAtomValue(dataUnitAtom);
-    const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace} = useGlucoseInput(initialUnit);
+    const {values, currentUnit, setCurrentUnit, onNumberPress, onBackspace, resetState} = useGlucoseInput(initialUnit);
     const model = useRef<BottomSheetModal>(null);
     const {t} = useTranslation();
 
@@ -71,7 +71,7 @@ export function Home({navigation}: any) {
                 onPress={() => setCurrentUnit('mmol')}
             />
             <Keyboard onBackspace={onBackspace} onNumberPress={onNumberPress} />
-            <SaveModal mgValue={values.mg} ref={model} />
+            <SaveModal mgValue={values.mg} ref={model} onSuccess={resetState} />
         </View>
     );
 }

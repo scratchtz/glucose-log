@@ -8,17 +8,20 @@ import DB from '@/storage/db-service';
 import {X} from 'lucide-react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import {useBottomSheetBackHandler} from '@/hooks/useBottomSheetBackHandler';
 
 type Props = {
     mgValue: string;
+    onSuccess: () => void;
 };
 
-export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
-    const snapPoints = useMemo(() => ['45', '75%', '94%'], []);
+export const SaveModal = forwardRef(({mgValue, onSuccess}: Props, ref: any) => {
+    const snapPoints = useMemo(() => ['50%', '75%', '94%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
+    const {handleSheetPositionChange} = useBottomSheetBackHandler(ref);
 
     const navigation = useNavigation();
 
@@ -40,10 +43,20 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
                 label: label,
             });
             onClose();
+            onSuccess();
+            //@ts-expect-error summary does exist
             navigation.navigate('Summary');
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const onChange = (index: number) => {
+        if (index === -1) {
+            setLabel('');
+            setDate(new Date());
+        }
+        handleSheetPositionChange(index);
     };
 
     const onConfirmDate = (date: Date) => {
@@ -57,6 +70,7 @@ export const SaveModal = forwardRef(({mgValue}: Props, ref: any) => {
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}
             ref={ref}
+            onChange={onChange}
             backdropComponent={renderBackdrop}
             keyboardBehavior="extend"
             snapPoints={snapPoints}>
