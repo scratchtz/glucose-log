@@ -51,8 +51,8 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         if ((!maxRange || !minRange) && (!maxVal || !minVal)) {
             return;
         }
-        let max = parseInt(maxRange);
-        let min = parseInt(minRange);
+        const max = parseInt(maxRange);
+        const min = parseInt(minRange);
         if (min >= max) {
             return;
         }
