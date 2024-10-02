@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
+const CONVERSION_NUMBER = 18;
 export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
     const snapPoints = useMemo(() => ['40', '65%'], []);
     const renderBackdrop = useCallback(
@@ -30,16 +31,28 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
     const {styles, theme} = useStyles(stylesheet);
     const onClose = () => ref.current?.close();
 
-    function onChangeMinRange(val: string) {
-        //set min range here
-    }
+    const onChangeMinValue = (val: string) => {
+        let min = parseFloat(val);
+        if (currentUnit === 'mmol') {
+            min = min * CONVERSION_NUMBER;
+        }
+        setMinRange(min.toFixed(0));
+    };
+
+    const onChangeMaxValue = (val: string) => {
+        let max = parseFloat(val);
+        if (currentUnit === 'mmol') {
+            max = max * CONVERSION_NUMBER;
+        }
+        setMaxRange(max.toFixed(0));
+    };
 
     function onConfirm() {
         if ((!maxRange || !minRange) && (!maxVal || !minVal)) {
             return;
         }
-        const max = parseFloat(maxRange);
-        const min = parseFloat(minRange);
+        let max = parseInt(maxRange);
+        let min = parseInt(minRange);
         if (min >= max) {
             return;
         }
@@ -74,7 +87,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     clearButtonMode={'always'}
                     placeholder={'Min Range'}
                     defaultValue={currentUnit === 'mmol' ? (minVal / 18).toFixed(2) : minVal.toString()}
-                    onChangeText={setMinRange}
+                    onChangeText={v => onChangeMinValue(v)}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
                 />
@@ -85,7 +98,7 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
                     clearButtonMode={'always'}
                     placeholder={'Max Range'}
                     defaultValue={currentUnit === 'mmol' ? (maxVal / 18).toFixed(2) : maxVal.toString()}
-                    onChangeText={setMaxRange}
+                    onChangeText={v => onChangeMaxValue(v)}
                     placeholderTextColor={theme.colors.text.tertiary}
                     keyboardType={'numeric'}
                 />
