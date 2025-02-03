@@ -85,6 +85,7 @@ export const SaveModal = forwardRef(({mgValue, onSuccess}: Props, ref: any) => {
                 <View style={styles.inputWrap}>
                     <BottomSheetTextInput
                         placeholder={t('home.label')}
+                        placeholderTextColor={theme.colors.text.tertiary}
                         onChangeText={setLabel}
                         style={styles.input}
                         clearButtonMode={'always'}
