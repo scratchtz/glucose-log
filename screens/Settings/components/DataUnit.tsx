@@ -6,14 +6,13 @@ import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {dataUnitAtom, DefaultDataUnit} from '@/storage/atoms/unit';
 import {commonStyles} from '@/screens/Settings/components/commonStyles';
-import {FullWindowOverlay} from 'react-native-screens';
 import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
 export const DataUnit = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
-    const snapPoints = useMemo(() => ['30', '50%'], []);
+    const snapPoints = useMemo(() => [300, '50%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
@@ -28,10 +27,8 @@ export const DataUnit = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         ref.current?.close();
     }
 
-    const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
         <BottomSheetModal
-            containerComponent={containerComponent}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

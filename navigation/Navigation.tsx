@@ -13,21 +13,25 @@ import {Terms} from '@/screens/Settings/components/Terms';
 import {PrivacyPolicy} from '@/screens/Settings/components/PrivacyPolicy';
 import {useTranslation} from 'react-i18next';
 import i18n from 'i18next';
+import {SystemBars} from 'react-native-edge-to-edge';
+import {useColorScheme} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
     const [savedTheme] = useMMKVString(StorageKeys.KEY_APP_THEME, encryptedStorage);
     const {t} = useTranslation();
+    const colorScheme = useColorScheme();
 
     useEffect(() => {
         if (!savedTheme || savedTheme === 'system') {
-            UnistylesRuntime.setAdaptiveThemes(true);
+            UnistylesRuntime.setAdaptiveThemes(false);
+            UnistylesRuntime.setTheme(colorScheme as 'light' | 'dark');
             return;
         }
         UnistylesRuntime.setAdaptiveThemes(false);
         UnistylesRuntime.setTheme(savedTheme as 'light' | 'dark');
-    }, [savedTheme]);
+    }, [colorScheme]);
 
     const [savedLanguage] = useMMKVString(StorageKeys.KEY_LANGUAGE, encryptedStorage);
     useEffect(() => {
@@ -54,6 +58,7 @@ export default function Navigation() {
 
     return (
         <NavigationContainer theme={navigationTheme}>
+            <SystemBars style={theme.isDark ? 'light' : 'dark'} />
             <Stack.Navigator initialRouteName="Home">
                 <Stack.Screen
                     name="Home"

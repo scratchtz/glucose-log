@@ -5,7 +5,6 @@ import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/commonStyles';
-import {FullWindowOverlay} from 'react-native-screens';
 import {useTranslation} from 'react-i18next';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
@@ -31,10 +30,8 @@ export const Language = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         ref.current?.close();
     }
 
-    const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
         <BottomSheetModal
-            containerComponent={containerComponent}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

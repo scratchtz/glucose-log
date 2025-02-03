@@ -18,6 +18,8 @@ import {encryptedStorage} from '@/storage/mmkv';
 import {useTranslation} from 'react-i18next';
 import {deleteCounterAtom} from '@/screens/Summary/RecordItemModal';
 import {useAtomValue} from 'jotai/index';
+import {palette} from '@/utils/styles/palette';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
@@ -70,87 +72,89 @@ export function Summary() {
     };
 
     return (
-        <FlashList
-            data={listData}
-            estimatedItemSize={50}
-            contentContainerStyle={styles.container}
-            renderItem={({item}) => <RecordItem {...item} />}
-            ListHeaderComponent={
-                <>
-                    {data.length > 0 ? (
-                        <View>
-                            <Text style={styles.info}>
-                                {t('summary.highest', {
-                                    value: convertData(highest.value, unit),
-                                    unit: unit,
-                                    date: new Date(highest.timestamp).toLocaleString(),
-                                    label: highest.label,
-                                })}
-                            </Text>
-                            <Text style={styles.info}>
-                                {t('summary.lowest', {
-                                    value: convertData(lowest.value, unit),
-                                    unit: unit,
-                                    date: new Date(lowest.timestamp).toLocaleString(),
-                                    label: lowest.label,
-                                })}
-                            </Text>
-                            <Text style={styles.info}>
-                                {t('summary.readings_in_range', {
-                                    min: rangeMin,
-                                    max: rangeHigh,
-                                    unit: unit,
-                                    percent: percentageRange.toFixed(2),
-                                })}
-                            </Text>
-                            <View style={styles.graphActions}>
-                                <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
-                                    <Ruler size={18} color={theme.colors.text.primary} />
-                                    <Text>
-                                        {rangeMin} - {rangeHigh}
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
-                                    <Gauge size={18} color={theme.colors.text.primary} />
-                                    <Text>{t('constants.unit.' + unit)}</Text>
-                                </TouchableOpacity>
+        <SafeAreaView style={{flex: 1}}>
+            <FlashList
+                data={listData}
+                estimatedItemSize={50}
+                contentContainerStyle={styles.container}
+                renderItem={({item}) => <RecordItem {...item} />}
+                ListHeaderComponent={
+                    <View>
+                        {data.length > 0 ? (
+                            <View>
+                                <Text style={styles.info}>
+                                    {t('summary.highest', {
+                                        value: convertData(highest.value, unit),
+                                        unit: unit,
+                                        date: new Date(highest.timestamp).toLocaleString(),
+                                        label: highest.label,
+                                    })}
+                                </Text>
+                                <Text style={styles.info}>
+                                    {t('summary.lowest', {
+                                        value: convertData(lowest.value, unit),
+                                        unit: unit,
+                                        date: new Date(lowest.timestamp).toLocaleString(),
+                                        label: lowest.label,
+                                    })}
+                                </Text>
+                                <Text style={styles.info}>
+                                    {t('summary.readings_in_range', {
+                                        min: rangeMin,
+                                        max: rangeHigh,
+                                        unit: unit,
+                                        percent: percentageRange.toFixed(2),
+                                    })}
+                                </Text>
+                                <View style={styles.graphActions}>
+                                    <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
+                                        <Ruler size={18} color={theme.colors.text.primary} />
+                                        <Text>
+                                            {rangeMin} - {rangeHigh}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.actionWrap} onPress={toggleUnit}>
+                                        <Gauge size={18} color={theme.colors.text.primary} />
+                                        <Text>{t('constants.unit.' + unit)}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Chart
+                                    highest={highest}
+                                    lowest={lowest}
+                                    data={data}
+                                    period={GRAPH_PERIOD.MONTH}
+                                    unit={unit}
+                                />
                             </View>
-                            <Chart
-                                highest={highest}
-                                lowest={lowest}
-                                data={data}
-                                period={GRAPH_PERIOD.MONTH}
-                                unit={unit}
-                            />
+                        ) : (
+                            <View style={styles.noDataWrap}>
+                                <Text>{t('summary.no_data')}</Text>
+                            </View>
+                        )}
+                        <View style={styles.selectors}>
+                            {GRAPH_PERIODS.map((p, index) => {
+                                return (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={[styles.selector, period === p && styles.selectorSelected]}
+                                        onPress={() => setPeriod(p)}>
+                                        <Text style={styles.period} weight="500">
+                                            {t('summary.period.' + p)}
+                                        </Text>
+                                    </TouchableOpacity>
+                                );
+                            })}
                         </View>
-                    ) : (
-                        <View style={styles.noDataWrap}>
-                            <Text>{t('summary.no_data')}</Text>
-                        </View>
-                    )}
-                    <View style={styles.selectors}>
-                        {GRAPH_PERIODS.map((p, index) => {
-                            return (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={[styles.selector, period === p && styles.selectorSelected]}
-                                    onPress={() => setPeriod(p)}>
-                                    <Text style={styles.period} weight="500">
-                                        {t('summary.period.' + p)}
-                                    </Text>
-                                </TouchableOpacity>
-                            );
-                        })}
+                        {data.length > 0 && (
+                            <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
+                                {t('summary.records')}
+                            </Text>
+                        )}
+                        <DataRange ref={dataRangeRef} />
                     </View>
-                    {data.length > 0 && (
-                        <Text variant={'h3'} style={{marginTop: theme.spacing.xl}}>
-                            {t('summary.records')}
-                        </Text>
-                    )}
-                    <DataRange ref={dataRangeRef} />
-                </>
-            }
-        />
+                }
+            />
+        </SafeAreaView>
     );
 }
 
@@ -236,5 +240,11 @@ const stylesheet = createStyleSheet(theme => ({
         fontFamily: 'Font-400',
         color: theme.colors.text.primary,
         marginBottom: theme.spacing.m,
+    },
+    pulse: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: palette.amber500,
     },
 }));

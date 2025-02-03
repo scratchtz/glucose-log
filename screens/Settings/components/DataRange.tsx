@@ -5,7 +5,6 @@ import {Text} from '@/components/Text/Text';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {dataRangeAtom} from '@/storage/atoms/range';
-import {FullWindowOverlay} from 'react-native-screens';
 import {getDefaultStore, useAtomValue} from 'jotai/index';
 import {useAtom} from 'jotai';
 import {dataUnitAtom} from '@/storage/atoms/unit';
@@ -15,7 +14,7 @@ type Props = {};
 
 const CONVERSION_NUMBER = 18;
 export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
-    const snapPoints = useMemo(() => ['40', '65%'], []);
+    const snapPoints = useMemo(() => [380, '65%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
@@ -60,10 +59,8 @@ export const DataRange = forwardRef<BottomSheetModal, Props>((Props, ref: any) =
         ref.current?.close();
     }
 
-    const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
         <BottomSheetModal
-            containerComponent={containerComponent}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

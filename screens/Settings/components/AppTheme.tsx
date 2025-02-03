@@ -5,7 +5,6 @@ import {Text} from '@/components/Text/Text';
 import {useStyles} from 'react-native-unistyles';
 import {X} from 'lucide-react-native';
 import {commonStyles} from '@/screens/Settings/components/commonStyles';
-import {FullWindowOverlay} from 'react-native-screens';
 import {useMMKVString} from 'react-native-mmkv';
 import {StorageKeys} from '@/constants/storageKeys';
 import {encryptedStorage} from '@/storage/mmkv';
@@ -15,7 +14,7 @@ type Props = {};
 
 const THEMES = ['light', 'dark', 'system'];
 export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) => {
-    const snapPoints = useMemo(() => [300, '50%'], []);
+    const snapPoints = useMemo(() => [330, '50%'], []);
     const renderBackdrop = useCallback(
         (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
@@ -30,10 +29,8 @@ export const AppTheme = forwardRef<BottomSheetModal, Props>((Props, ref: any) =>
         ref.current?.close();
     }
 
-    const containerComponent = useCallback((props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>, []);
     return (
         <BottomSheetModal
-            containerComponent={containerComponent}
             enablePanDownToClose
             backgroundStyle={styles.container}
             handleIndicatorStyle={styles.indicator}

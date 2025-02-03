@@ -16,9 +16,9 @@ import {useSetAtom} from 'jotai';
 export const deleteCounterAtom = atom(0);
 
 export const RecordItemModal = forwardRef<BottomSheetModal, ILog>((props, ref: any) => {
-    const snapPoints = useMemo(() => [300, '50%'], []);
+    const snapPoints = useMemo(() => [300, '50%', '80%'], []);
     const renderBackdrop = useCallback(
-        (props: any) => <BottomSheetBackdrop {...props} opacity={0.5} disappearsOnIndex={-1} appearsOnIndex={0} />,
+        (props: any) => <BottomSheetBackdrop {...props} opacity={0.8} disappearsOnIndex={-1} appearsOnIndex={0} />,
         [],
     );
     const {t} = useTranslation();
@@ -74,6 +74,7 @@ const stylesheet = createStyleSheet(theme => ({
     },
     wrapper: {
         marginHorizontal: theme.spacing.th,
+        alignItems: 'center',
     },
     indicator: {
         backgroundColor: theme.colors.text.tertiary,
@@ -102,7 +103,7 @@ const stylesheet = createStyleSheet(theme => ({
         marginTop: theme.spacing.xl,
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf: 'flex-start',
+        width: 200,
     },
     deleteText: {
         color: 'white',

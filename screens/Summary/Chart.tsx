@@ -51,7 +51,7 @@ export const Chart = ({data, highest, lowest}: Props) => {
     const unit = useAtomValue(dataUnitAtom);
     const {maxVal, minVal} = useAtomValue(dataRangeAtom);
     const {min, max} = useMemo(() => {
-        return {min: Math.max(lowest.value - 50, 0), max: Math.min(highest.value + 20, 540)};
+        return {min: Math.max(lowest.value - 50, 0), max: Math.min(highest.value + 20, 1000)};
     }, [unit, highest, lowest]);
 
     const {styles, theme} = useStyles(stylesheet);
