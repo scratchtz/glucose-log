@@ -17,8 +17,8 @@
   },
   "summary" : {
     "title": "Muhtasari",
-    "highest" : "Juu Zaidi",
-    "lowest" : "Chini Zaidi",
+    "highest" : "Kiwango cha juu zaidi kilikua {{value}} {{unit}} tarehe {{date}} ({{label}})",
+    "lowest" : "Kiwango cha chini zaidi kilikua {{value}} {{unit}} tarehe {{date}} ({{label}})",
     "readings_in_range": "Vipimo vimekuwa ndani ya kiwango cha {{min}} - {{max}} {{unit}} kwa {{percent}}% ya wakati.",
     "mmol": "mmol",
     "mg" : "mg",

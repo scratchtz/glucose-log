@@ -1,14 +1,14 @@
-import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
-import {forwardRef, useCallback, useMemo, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@/components/Text/Text';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import DateTimePicker from 'react-native-modal-datetime-picker';
-import DB from '@/storage/db-service';
-import {X} from 'lucide-react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
 import {useBottomSheetBackHandler} from '@/hooks/useBottomSheetBackHandler';
+import DB from '@/storage/db-service';
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput} from '@gorhom/bottom-sheet';
+import {useNavigation} from '@react-navigation/native';
+import {X} from 'lucide-react-native';
+import {forwardRef, useCallback, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {TouchableOpacity, View} from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type Props = {
     mgValue: string;
@@ -52,7 +52,8 @@ export const SaveModal = forwardRef(({mgValue, onSuccess}: Props, ref: any) => {
     };
 
     const onChange = (index: number) => {
-        if (index === -1) {
+        //component reopens so it index becomes greater than 0 and sets new states
+        if (index >= 0) {
             setLabel('');
             setDate(new Date());
         }
