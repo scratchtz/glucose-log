@@ -75,7 +75,7 @@ export const darkTheme: AppTheme = {
         text: {
             primary: palette.gray100,
             secondary: palette.gray400,
-            tertiary: palette.gray500,
+            tertiary: palette.dark300,
         },
         background: '#202948',
         border: '#3C466E',
