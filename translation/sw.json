@@ -12,8 +12,8 @@
     "save_measurements": "Hifadhi kipimo cha sukari",
     "summary_chart": "Tazama chati ya muhtasari",
     "delete_last_digit": "Futa tarakimu ya mwisho uliyoingiza",
-    "select_label": "Chagua {{unitLabel}}"
-
+    "select_label": "Chagua {{unitLabel}}",
+    "set_current_time":"weka muda wa sasa"
   },
   "summary" : {
     "title": "Muhtasari",

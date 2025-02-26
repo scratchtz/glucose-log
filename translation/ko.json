@@ -12,7 +12,8 @@
     "save_measurements": "혈당 측정값 저장",
     "summary_chart": "요약 차트 보기",
     "delete_last_digit": "마지막 입력 숫자 삭제",
-    "select_label": "{{unitLabel}} 단위 선택"
+    "select_label": "{{unitLabel}} 단위 선택",
+    "set_current_time":"현재 시간 설정"
   },
   "constants": {
     "theme": {

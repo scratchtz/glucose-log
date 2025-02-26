@@ -10,7 +10,8 @@
         "save_measurements": "Save glucose measurement",
         "summary_chart": "View summary chart",
         "delete_last_digit": "Delete last entered digit",
-        "select_label" : "Select {{unitLabel}} unit"
+        "select_label" : "Select {{unitLabel}} unit",
+        "set_current_time":"Set Current Time"
     },
     "constants": {
         "theme": {

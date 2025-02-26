@@ -94,7 +94,12 @@ export const SaveModal = forwardRef(({mgValue, onSuccess}: Props, ref: any) => {
                     />
                 </View>
 
-                <Text style={styles.label}>{t('home.timestamp')}</Text>
+                <View style={styles.label}>
+                    <Text>{t('home.timestamp')}</Text>
+                    <TouchableOpacity onPress={() => setDate(new Date())}>
+                        <Text style={styles.setCurrentTime}>{t('home.set_current_time')}</Text>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={styles.timestampButton} onPress={() => setIsDateVisible(true)}>
                     {date ? (
                         <View style={styles.dateRender}>
@@ -187,7 +192,14 @@ const stylesheet = createStyleSheet(theme => ({
         color: 'white',
     },
     label: {
-        marginTop: theme.spacing.m,
+        marginTop: theme.spacing.l,
         marginLeft: theme.spacing.xs,
+        marginBottom: theme.spacing.s,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    setCurrentTime: {
+        textDecorationLine: 'underline',
+        color: theme.colors.text.secondary,
     },
 }));
