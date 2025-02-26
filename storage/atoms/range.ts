@@ -6,4 +6,4 @@ export interface DataRange {
     maxVal: number;
 }
 
-export const dataRangeAtom = atomWithMMKV<DataRange>(StorageKeys.KEY_DATA_RANGE, {minVal: 80, maxVal: 180});
+export const dataRangeAtom = atomWithMMKV<DataRange>(StorageKeys.KEY_DATA_RANGE, {minVal: 70, maxVal: 100});
