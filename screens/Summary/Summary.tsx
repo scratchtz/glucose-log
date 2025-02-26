@@ -19,7 +19,8 @@ import {useTranslation} from 'react-i18next';
 import {deleteCounterAtom} from '@/screens/Summary/RecordItemModal';
 import {useAtomValue} from 'jotai/index';
 import {palette} from '@/utils/styles/palette';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export function Summary() {
     const {styles, theme} = useStyles(stylesheet);
@@ -81,30 +82,39 @@ export function Summary() {
                 <View>
                     {data.length > 0 ? (
                         <View>
-                            <Text style={styles.info}>
-                                {t('summary.highest', {
-                                    value: convertData(highest.value, unit),
-                                    unit: unit,
-                                    date: new Date(highest.timestamp).toLocaleString(),
-                                    label: highest.label,
-                                })}
-                            </Text>
-                            <Text style={styles.info}>
-                                {t('summary.lowest', {
-                                    value: convertData(lowest.value, unit),
-                                    unit: unit,
-                                    date: new Date(lowest.timestamp).toLocaleString(),
-                                    label: lowest.label,
-                                })}
-                            </Text>
-                            <Text style={styles.info}>
-                                {t('summary.readings_in_range', {
-                                    min: rangeMin,
-                                    max: rangeHigh,
-                                    unit: unit,
-                                    percent: percentageRange.toFixed(2),
-                                })}
-                            </Text>
+                            <View style={styles.infoWrap}>
+                                <MaterialCommunityIcons name="gauge-full" style={styles.infoIcon} />
+                                <Text style={styles.info}>
+                                    {t('summary.highest', {
+                                        value: convertData(highest.value, unit),
+                                        unit: t(`constants.unit.${unit}`),
+                                        date: new Date(highest.timestamp).toLocaleString(),
+                                        label: highest.label,
+                                    })}
+                                </Text>
+                            </View>
+                            <View style={styles.infoWrap}>
+                                <MaterialCommunityIcons name="gauge-empty" style={styles.infoIcon} />
+                                <Text style={styles.info}>
+                                    {t('summary.lowest', {
+                                        value: convertData(lowest.value, unit),
+                                        unit: t(`constants.unit.${unit}`),
+                                        date: new Date(lowest.timestamp).toLocaleString(),
+                                        label: lowest.label,
+                                    })}
+                                </Text>
+                            </View>
+                            <View style={styles.infoWrap}>
+                                <FontAwesome6 name="chart-line" style={styles.infoIcon} />
+                                <Text style={styles.info}>
+                                    {t('summary.readings_in_range', {
+                                        min: rangeMin,
+                                        max: rangeHigh,
+                                        unit: t(`constants.unit.${unit}`),
+                                        percent: percentageRange.toFixed(2),
+                                    })}
+                                </Text>
+                            </View>
                             <View style={styles.graphActions}>
                                 <TouchableOpacity onPress={handleDataRange} style={styles.actionWrap}>
                                     <Ruler size={18} color={theme.colors.text.primary} />
@@ -208,7 +218,7 @@ const stylesheet = createStyleSheet(theme => ({
         gap: theme.spacing.xs,
     },
     selectorSelected: {
-        borderColor: theme.colors.secondary,
+        borderColor: theme.colors.text.primary,
         borderWidth: 2,
     },
     period: {
@@ -234,10 +244,20 @@ const stylesheet = createStyleSheet(theme => ({
         alignItems: 'center',
         minHeight: 200,
     },
+    infoWrap: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: theme.spacing.m,
+        marginBottom: theme.spacing.m,
+    },
     info: {
         fontFamily: 'Font-400',
         color: theme.colors.text.primary,
-        marginBottom: theme.spacing.m,
+        flex: 1,
+    },
+    infoIcon: {
+        fontSize: 24,
+        color: theme.colors.text.secondary,
     },
     pulse: {
         width: 10,

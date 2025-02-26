@@ -22,8 +22,8 @@
       "system": "자동"
     },
     "language": {
-      "en": "영어",
-      "sw": "스와힐리어",
+      "en": "English",
+      "sw": "Kiswahili",
       "kr": "한국어"
     },
     "unit": {
@@ -64,7 +64,3 @@
     "github": "Github"
   }
 }
-
-
-
-
