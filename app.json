@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "co.tz.scratch.glucoselog"
+      "bundleIdentifier": "co.tz.scratch.glucoselog",
+      "appleTeamId": "8YKWYHNG3G"
     },
     "android": {
       "adaptiveIcon": {
@@ -41,7 +42,8 @@
           }
         }
       ],
-      "react-native-edge-to-edge"
+      "react-native-edge-to-edge",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
